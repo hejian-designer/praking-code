@@ -1,0 +1,14 @@
+{
+  "name": "parking-query-webapp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler pages dev public --compatibility-date=2026-03-22",
+    "deploy": "wrangler pages deploy public --project-name parking-query-webapp",
+    "check": "node --check public/app.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.9.0"
+  }
+}

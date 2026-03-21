@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>停车查询网站</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="page-header card">
+        <div>
+          <h1>停车查询网站</h1>
+          <p>支持单车查询、批量提取、标记处理、本地缓存与整点自动刷新。</p>
+        </div>
+        <div class="header-actions">
+          <button id="refreshBtn" class="secondary-btn">刷新在场车辆</button>
+          <button id="clearBtn" class="danger-btn">清空列表</button>
+        </div>
+      </header>
+
+      <section class="stats-grid">
+        <article class="stat-card card">
+          <div class="stat-label">在场车辆</div>
+          <div class="stat-value" id="activeCount">0</div>
+        </article>
+        <article class="stat-card card">
+          <div class="stat-label">已处理</div>
+          <div class="stat-value" id="processedCount">0</div>
+        </article>
+        <article class="stat-card card">
+          <div class="stat-label">总欠费</div>
+          <div class="stat-value" id="totalFee">0</div>
+        </article>
+      </section>
+
+      <section class="panel-grid">
+        <article class="card panel">
+          <h2>单车查询</h2>
+          <div class="input-row">
+            <input id="singlePlateInput" type="text" placeholder="请输入车牌号，例如：沪GAJ226" maxlength="12" />
+            <button id="singleQueryBtn" class="primary-btn">查询</button>
+          </div>
+          <p class="hint">会自动转大写，并把新结果插入列表顶部。</p>
+        </article>
+
+        <article class="card panel">
+          <h2>批量查询</h2>
+          <textarea id="batchText" rows="7" placeholder="粘贴任意文本，系统会自动提取车牌号"></textarea>
+          <div class="detected-row">
+            <div>
+              <strong>已识别：</strong>
+              <span id="detectedSummary">0 个车牌</span>
+            </div>
+            <div class="header-actions">
+              <button id="detectBtn" class="secondary-btn">识别车牌</button>
+              <button id="batchQueryBtn" class="primary-btn">批量查询</button>
+            </div>
+          </div>
+          <div id="detectedList" class="tag-list"></div>
+        </article>
+      </section>
+
+      <section class="card table-panel">
+        <div class="table-header">
+          <h2>查询结果</h2>
+          <div id="statusText" class="status-text">准备就绪</div>
+        </div>
+        <div id="emptyState" class="empty-state">还没有查询记录。</div>
+        <div id="cardList" class="result-list"></div>
+      </section>
+    </div>
+
+    <div id="toast" class="toast"></div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

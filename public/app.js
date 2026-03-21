@@ -1,0 +1,354 @@
+const STORAGE_KEY = 'parking_webapp_car_list_v1';
+const PLATE_REGEX = /[京津沪渝冀豫云辽黑湘皖鲁苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼][A-Z][A-Z0-9]{5}/g;
+
+const state = {
+  carList: [],
+  detectedPlates: [],
+  loading: false,
+  alignTimer: null,
+  refreshTimer: null
+};
+
+const el = {
+  activeCount: document.getElementById('activeCount'),
+  processedCount: document.getElementById('processedCount'),
+  totalFee: document.getElementById('totalFee'),
+  singlePlateInput: document.getElementById('singlePlateInput'),
+  batchText: document.getElementById('batchText'),
+  detectedSummary: document.getElementById('detectedSummary'),
+  detectedList: document.getElementById('detectedList'),
+  cardList: document.getElementById('cardList'),
+  emptyState: document.getElementById('emptyState'),
+  toast: document.getElementById('toast'),
+  statusText: document.getElementById('statusText'),
+  singleQueryBtn: document.getElementById('singleQueryBtn'),
+  batchQueryBtn: document.getElementById('batchQueryBtn'),
+  detectBtn: document.getElementById('detectBtn'),
+  refreshBtn: document.getElementById('refreshBtn'),
+  clearBtn: document.getElementById('clearBtn')
+};
+
+function setStatus(text) {
+  el.statusText.textContent = text;
+}
+
+function showToast(message) {
+  el.toast.textContent = message;
+  el.toast.classList.add('show');
+  clearTimeout(showToast._timer);
+  showToast._timer = setTimeout(() => el.toast.classList.remove('show'), 1800);
+}
+
+function loadLocalData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    state.carList = raw ? JSON.parse(raw) : [];
+  } catch {
+    state.carList = [];
+  }
+}
+
+function saveLocalData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.carList));
+}
+
+function normalizeNumber(value, fallback = 0) {
+  const num = Number(value);
+  return Number.isFinite(num) ? num : fallback;
+}
+
+function normalizeCar(raw = {}, oldCar = {}) {
+  const todayHours = normalizeNumber(raw.today_hours ?? raw.todayHours ?? oldCar.todayHours, 0);
+  const totalHours = normalizeNumber(raw.total_hours ?? raw.totalHours ?? oldCar.totalHours, 0);
+  const needPay = normalizeNumber(raw.need_pay ?? raw.needPay ?? oldCar.needPay, 0);
+  return {
+    plate: String(raw.plate || oldCar.plate || '').trim().toUpperCase(),
+    status: raw.status || oldCar.status || 'not_found',
+    owner: raw.owner ?? oldCar.owner ?? '',
+    entry: raw.entry ?? oldCar.entry ?? '',
+    todayHours,
+    todayHoursFixed: todayHours.toFixed(1),
+    totalHours,
+    needPay,
+    marked: oldCar.marked ?? false,
+    markTime: oldCar.markTime ?? null,
+    isProcessed: oldCar.isProcessed ?? false
+  };
+}
+
+function mergeCars(oldList = [], latestList = []) {
+  const latestMap = new Map(latestList.map(item => [String(item.plate).toUpperCase(), item]));
+  return oldList.map(oldCar => {
+    const latest = latestMap.get(String(oldCar.plate).toUpperCase());
+    return latest ? normalizeCar(latest, oldCar) : oldCar;
+  });
+}
+
+function updateStats() {
+  const active = state.carList.filter(c => c.status === 'success').length;
+  const processed = state.carList.filter(c => c.isProcessed).length;
+  const totalFee = state.carList.reduce((sum, item) => sum + normalizeNumber(item.needPay, 0), 0);
+  el.activeCount.textContent = String(active);
+  el.processedCount.textContent = String(processed);
+  el.totalFee.textContent = String(totalFee);
+}
+
+function extractPlates(text = '') {
+  const matches = String(text).toUpperCase().match(PLATE_REGEX) || [];
+  return [...new Set(matches)];
+}
+
+function renderDetectedPlates() {
+  el.detectedSummary.textContent = `${state.detectedPlates.length} 个车牌`;
+  el.detectedList.innerHTML = state.detectedPlates
+    .map(plate => `<span class="tag">${plate}</span>`)
+    .join('');
+}
+
+function renderCards() {
+  if (state.carList.length === 0) {
+    el.emptyState.style.display = 'block';
+    el.cardList.innerHTML = '';
+    return;
+  }
+
+  el.emptyState.style.display = 'none';
+  el.cardList.innerHTML = state.carList.map((item, index) => {
+    const isSuccess = item.status === 'success';
+    const badgeClass = isSuccess ? 'badge-success' : 'badge-muted';
+    const badgeText = isSuccess ? '在场' : '未在场';
+    const markText = item.isProcessed ? '已处理' : item.marked ? `已标记 ${item.markTime}h` : '标记时间';
+    return `
+      <article class="result-card">
+        <div class="result-top">
+          <div class="plate">${item.plate}</div>
+          <span class="badge ${badgeClass}">${badgeText}</span>
+        </div>
+        <div class="meta-grid">
+          <div class="meta-item"><div class="meta-label">入场时间</div><div class="meta-value">${item.entry || '-'}</div></div>
+          <div class="meta-item"><div class="meta-label">车主</div><div class="meta-value">${item.owner || '-'}</div></div>
+          <div class="meta-item"><div class="meta-label">今日时长</div><div class="meta-value">${item.todayHoursFixed || '0.0'}h</div></div>
+          <div class="meta-item"><div class="meta-label">欠费</div><div class="meta-value">${item.needPay || 0}</div></div>
+        </div>
+        <div class="actions-row">
+          <button class="small-btn mark-btn" data-action="mark" data-index="${index}">${markText}</button>
+          <button class="small-btn done-btn" data-action="done" data-index="${index}">${item.isProcessed ? '取消已处理' : '标记已处理'}</button>
+          <button class="small-btn danger-btn" data-action="delete" data-index="${index}">删除</button>
+        </div>
+      </article>`;
+  }).join('');
+}
+
+function render() {
+  updateStats();
+  renderDetectedPlates();
+  renderCards();
+}
+
+async function apiRequest(path, data) {
+  const resp = await fetch(path, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(data)
+  });
+  const payload = await resp.json();
+  if (!resp.ok || !payload.success) {
+    throw new Error(payload.message || `请求失败 (${resp.status})`);
+  }
+  return payload.data;
+}
+
+async function querySinglePlate() {
+  const plate = el.singlePlateInput.value.trim().toUpperCase();
+  if (!plate) {
+    showToast('请输入车牌号');
+    return;
+  }
+  setStatus(`正在查询 ${plate}...`);
+  try {
+    const result = await apiRequest('/api/query', { plate });
+    const newCar = normalizeCar(result, { plate });
+    state.carList = [newCar, ...state.carList.filter(item => item.plate !== newCar.plate)];
+    saveLocalData();
+    render();
+    el.singlePlateInput.value = '';
+    showToast('查询成功');
+    setStatus('查询完成');
+  } catch (error) {
+    console.error(error);
+    showToast(error.message || '查询失败');
+    setStatus('查询失败');
+  }
+}
+
+async function batchQuery() {
+  const batchText = el.batchText.value;
+  const plates = state.detectedPlates.length > 0 ? state.detectedPlates : extractPlates(batchText);
+  if (plates.length === 0) {
+    showToast('未识别到车牌号');
+    return;
+  }
+  const existing = new Set(state.carList.map(item => item.plate));
+  const newPlates = plates.filter(plate => !existing.has(plate));
+  if (newPlates.length === 0) {
+    showToast('所有车牌已存在');
+    return;
+  }
+
+  setStatus(`正在批量查询 ${newPlates.length} 个车牌...`);
+  try {
+    const result = await apiRequest('/api/batch-query', { plates: newPlates });
+    const newCars = result.map(item => normalizeCar(item));
+    state.carList = [...newCars, ...state.carList];
+    state.detectedPlates = [];
+    el.batchText.value = '';
+    saveLocalData();
+    render();
+    const activeCount = newCars.filter(item => item.status === 'success').length;
+    showToast(`成功 ${activeCount}/${newPlates.length}`);
+    setStatus('批量查询完成');
+  } catch (error) {
+    console.error(error);
+    showToast(error.message || '批量查询失败');
+    setStatus('批量查询失败');
+  }
+}
+
+async function refreshActiveCars() {
+  const activePlates = state.carList.filter(item => item.status === 'success').map(item => item.plate);
+  if (activePlates.length === 0) {
+    showToast('当前没有在场车辆');
+    return;
+  }
+  setStatus(`正在刷新 ${activePlates.length} 个在场车辆...`);
+  try {
+    const result = await apiRequest('/api/batch-query', { plates: activePlates });
+    state.carList = mergeCars(state.carList, result);
+    saveLocalData();
+    render();
+    showToast('刷新完成');
+    setStatus('刷新完成');
+  } catch (error) {
+    console.error(error);
+    showToast(error.message || '刷新失败');
+    setStatus('刷新失败');
+  }
+}
+
+function startAutoRefresh() {
+  stopAutoRefresh();
+  const now = new Date();
+  const nextHour = new Date(now);
+  nextHour.setHours(now.getHours() + 1, 0, 0, 0);
+  const delay = nextHour.getTime() - now.getTime();
+
+  state.alignTimer = setTimeout(() => {
+    refreshActiveCars();
+    state.refreshTimer = setInterval(refreshActiveCars, 60 * 60 * 1000);
+    state.alignTimer = null;
+  }, delay);
+}
+
+function stopAutoRefresh() {
+  if (state.alignTimer) {
+    clearTimeout(state.alignTimer);
+    state.alignTimer = null;
+  }
+  if (state.refreshTimer) {
+    clearInterval(state.refreshTimer);
+    state.refreshTimer = null;
+  }
+}
+
+function clearList() {
+  if (!window.confirm('确定要清空所有记录吗？')) return;
+  state.carList = [];
+  saveLocalData();
+  render();
+  showToast('已清空');
+}
+
+function promptMark(index) {
+  const current = state.carList[index];
+  if (!current) return;
+  const input = window.prompt('请输入处理时间（6 / 6.5 / 7 / 7.5 / 8），留空则取消标记：', current.markTime || '');
+  if (input === null) return;
+  const value = input.trim();
+  if (!value) {
+    current.marked = false;
+    current.markTime = null;
+  } else {
+    current.marked = true;
+    current.markTime = value;
+  }
+  state.carList[index] = current;
+  saveLocalData();
+  render();
+}
+
+function toggleProcessed(index) {
+  const current = state.carList[index];
+  if (!current) return;
+  current.isProcessed = !current.isProcessed;
+  state.carList[index] = current;
+  saveLocalData();
+  render();
+}
+
+function deleteItem(index) {
+  state.carList.splice(index, 1);
+  saveLocalData();
+  render();
+}
+
+function bindEvents() {
+  el.detectBtn.addEventListener('click', () => {
+    state.detectedPlates = extractPlates(el.batchText.value);
+    renderDetectedPlates();
+    if (state.detectedPlates.length === 0) {
+      showToast('未识别到车牌号');
+    }
+  });
+
+  el.batchText.addEventListener('input', () => {
+    state.detectedPlates = extractPlates(el.batchText.value);
+    renderDetectedPlates();
+  });
+
+  el.singleQueryBtn.addEventListener('click', querySinglePlate);
+  el.batchQueryBtn.addEventListener('click', batchQuery);
+  el.refreshBtn.addEventListener('click', refreshActiveCars);
+  el.clearBtn.addEventListener('click', clearList);
+  el.singlePlateInput.addEventListener('keydown', event => {
+    if (event.key === 'Enter') querySinglePlate();
+  });
+
+  el.cardList.addEventListener('click', event => {
+    const target = event.target.closest('button[data-action]');
+    if (!target) return;
+    const action = target.dataset.action;
+    const index = Number(target.dataset.index);
+    if (!Number.isInteger(index)) return;
+    if (action === 'mark') promptMark(index);
+    if (action === 'done') toggleProcessed(index);
+    if (action === 'delete') deleteItem(index);
+  });
+
+  window.addEventListener('beforeunload', stopAutoRefresh);
+}
+
+async function boot() {
+  loadLocalData();
+  bindEvents();
+  render();
+  startAutoRefresh();
+  try {
+    const resp = await fetch('/api/health');
+    const data = await resp.json();
+    setStatus(`接口状态：${data.data?.status || 'ok'}`);
+  } catch {
+    setStatus('接口状态检查失败');
+  }
+}
+
+boot();

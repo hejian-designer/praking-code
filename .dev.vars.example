@@ -1,0 +1,6 @@
+# Cloudflare Pages / Workers 环境变量示例
+# 若你已经有可访问的停车查询后端，就填它；Cloudflare 会把前端请求转发过去
+PARKING_UPSTREAM_URL=https://your-api.example.com
+PARKING_API_TOKEN=
+PARKING_API_TOKEN_HEADER=Authorization
+DEMO_MODE=true

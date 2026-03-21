@@ -1,0 +1,6 @@
+name = "parking-query-webapp"
+compatibility_date = "2026-03-22"
+pages_build_output_dir = "public"
+
+[vars]
+APP_NAME = "停车查询网站"
