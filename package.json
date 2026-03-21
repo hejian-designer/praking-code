@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "wrangler pages dev public --compatibility-date=2026-03-22",
+    "dev": "wrangler pages dev public --compatibility-date=2026-03-21",
     "deploy": "wrangler pages deploy public --project-name parking-query-webapp",
     "check": "node --check public/app.js"
   },
