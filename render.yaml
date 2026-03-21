@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: parking-query-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
+    envVars:
+      - key: PARKING_TOKEN
+        sync: false
+      - key: PARKING_MALL_ID
+        value: "11192"
+      - key: PARKING_PARK_ID
+        value: "625"
+      - key: PARKING_CACHE_TTL_SECONDS
+        value: "300"
+      - key: PARKING_REQUEST_TIMEOUT_SECONDS
+        value: "15"
+      - key: PARKING_INSECURE_SSL
+        value: "true"
+      - key: PARKING_OWNER_MAP_JSON
+        sync: false

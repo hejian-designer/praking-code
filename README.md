@@ -40,6 +40,10 @@
 
 ```text
 parking-query-webapp/
+├── backend/
+│   ├── app.py
+│   ├── requirements.txt
+│   └── .env.example
 ├── public/
 │   ├── index.html
 │   ├── style.css
@@ -52,6 +56,7 @@ parking-query-webapp/
 ├── src/
 │   └── parking.js
 ├── package.json
+├── render.yaml
 ├── wrangler.toml
 └── .dev.vars.example
 ```
@@ -99,6 +104,22 @@ Cloudflare Functions 会把：
 - `GET /api/health`
 
 转发到这个上游地址的同名路径。
+
+### Render 后端环境变量
+
+`backend/app.py` 会直接请求猫酷停车接口，Render 至少需要这些环境变量：
+
+- `PARKING_TOKEN`：必填，真实查询 token
+- `PARKING_MALL_ID`：默认 `11192`
+- `PARKING_PARK_ID`：默认 `625`
+- `PARKING_INSECURE_SSL`：建议先设为 `true`
+- `PARKING_OWNER_MAP_JSON`：可选，JSON 字符串格式的车牌-车主映射
+
+例如：
+
+```json
+{"沪GAJ226":"xiner","沪A32Q90":"demo"}
+```
 
 ### `PARKING_API_TOKEN`
 
@@ -160,6 +181,41 @@ git push -u origin main
 ```bash
 npm run deploy
 ```
+
+## 部署真实后端到 Render
+
+仓库里已经准备好了 Render 所需文件：
+
+- `backend/app.py`
+- `backend/requirements.txt`
+- `render.yaml`
+
+推荐流程：
+
+1. 把整个仓库 push 到 GitHub
+2. 登录 Render
+3. 选择 **New +** → **Blueprint**
+4. 选择这个 GitHub 仓库
+5. Render 会读取根目录下的 `render.yaml`
+6. 在 Render 中补齐环境变量：
+   - `PARKING_TOKEN`
+   - `PARKING_OWNER_MAP_JSON`（可选）
+7. 部署成功后，拿到类似：
+
+```text
+https://parking-query-api.onrender.com
+```
+
+8. 回到 Cloudflare Pages，把：
+
+```text
+PARKING_UPSTREAM_URL=https://parking-query-api.onrender.com
+DEMO_MODE=false
+```
+
+保存后重新部署
+
+如果 Render 首次冷启动较慢，Cloudflare 前几次查询可能会稍慢，这是正常现象。
 
 ## 上游接口约定
 
