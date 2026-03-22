@@ -4,5 +4,3 @@ pages_build_output_dir = "public"
 
 [vars]
 APP_NAME = "停车查询网站"
-PARKING_UPSTREAM_URL = "https://parking-query-api.onrender.com"
-DEMO_MODE = "false"
