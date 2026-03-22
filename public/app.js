@@ -183,12 +183,6 @@ function renderCards() {
     const markControl = isSuccess && markExpanded ? `
       <div class="mark-picker-frame">
         <div class="mark-picker-scroll" data-role="mark-picker" data-index="${index}" aria-label="滑动选择处理时间">
-          <button
-            class="mark-picker-option ${!item.marked ? 'mark-picker-option-active' : ''}"
-            data-action="clear-mark"
-            data-index="${index}"
-            data-value=""
-          >取消标记</button>
           ${MARK_OPTIONS.map(option => `
             <button
               class="mark-picker-option ${item.markTime === option && item.marked ? 'mark-picker-option-active' : ''}"
@@ -248,8 +242,8 @@ function syncOpenMarkPicker() {
   const current = state.carList[state.expandedMarkIndex];
   const picker = el.cardList.querySelector(`.mark-picker-scroll[data-index="${state.expandedMarkIndex}"]`);
   if (!current || !picker) return;
-  const targetValue = current.marked ? current.markTime : '';
-  const target = picker.querySelector(`[data-value="${targetValue}"]`) || picker.querySelector('[data-value=""]');
+  const targetValue = current.marked ? current.markTime : MARK_OPTIONS[0];
+  const target = picker.querySelector(`[data-value="${targetValue}"]`) || picker.querySelector(`[data-value="${MARK_OPTIONS[0]}"]`);
   if (!target) return;
 
   requestAnimationFrame(() => {
