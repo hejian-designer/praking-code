@@ -564,23 +564,26 @@ textarea { resize: vertical; }
     display: none;
   }
   .stat-card {
-    padding: 12px 12px 10px;
+    padding: 8px 10px 7px;
+    min-height: 48px;
+    border-radius: 14px;
   }
   .stat-label {
-    font-size: 11px;
-    margin-bottom: 4px;
+    font-size: 10px;
+    margin-bottom: 2px;
   }
   .stat-value {
-    font-size: 20px;
+    font-size: 16px;
   }
   .panel,
   .table-panel {
-    padding: 14px 12px;
+    padding: 12px 10px;
+    border-radius: 14px;
   }
   .panel h2,
   .table-panel h2 {
-    margin-bottom: 10px;
-    font-size: 16px;
+    margin-bottom: 8px;
+    font-size: 14px;
   }
   .input-row {
     gap: 8px;
@@ -597,95 +600,100 @@ textarea { resize: vertical; }
     margin-bottom: 8px;
   }
   .result-card {
-    padding: 11px 9px;
-    gap: 8px;
+    padding: 8px 8px 7px;
+    gap: 6px;
+    border-radius: 10px;
   }
   .result-layout {
-    grid-template-columns: 44px minmax(0, 1fr) 72px;
+    grid-template-columns: 34px minmax(0, 1fr) 64px;
     gap: 6px;
     align-items: start;
   }
   .plate {
     font-size: 22px;
-    line-height: 1.02;
+    line-height: 1.04;
   }
   .status-pill {
-    min-width: 44px;
-    min-height: 42px;
-    border-width: 2px;
-    border-radius: 12px;
-    padding: 0 2px;
-    font-size: 11px;
+    min-width: 34px;
+    min-height: 26px;
+    border-width: 1.5px;
+    border-radius: 8px;
+    padding: 0 1px;
+    font-size: 8px;
     line-height: 1;
   }
   .result-info-panel {
-    gap: 8px;
+    gap: 4px;
     padding-top: 0;
   }
   .result-topline {
-    gap: 4px;
+    gap: 2px;
   }
   .result-info-row {
-    grid-template-columns: minmax(46px, 0.95fr) minmax(112px, 1.45fr) minmax(46px, 0.85fr);
-    gap: 8px;
+    grid-template-columns: minmax(40px, 0.85fr) minmax(112px, 1.7fr) minmax(34px, 0.7fr);
+    gap: 6px;
     align-items: end;
   }
   .info-col {
     display: grid;
-    gap: 2px;
+    gap: 1px;
     white-space: nowrap;
   }
   .info-col-label {
-    font-size: 10px;
+    font-size: 8px;
     font-weight: 600;
     line-height: 1;
   }
   .info-col-value {
     white-space: nowrap;
-    font-size: 10px;
+    font-size: 8px;
     font-weight: 800;
     line-height: 1.1;
   }
   .info-col-entry .info-col-value {
-    font-size: 10px;
+    font-size: 8px;
     letter-spacing: 0;
   }
   .fee-panel {
-    border-width: 2px;
-    border-radius: 16px;
-    gap: 6px;
-    padding: 8px 4px;
-    min-height: 102px;
+    border-width: 1.5px;
+    border-radius: 8px;
+    gap: 2px;
+    padding: 4px 3px;
+    min-height: 34px;
+    min-width: 64px;
+    align-self: start;
   }
   .fee-label {
-    font-size: 12px;
+    font-size: 7px;
   }
   .fee-value {
-    font-size: 26px;
+    font-size: 15px;
+    line-height: 1;
   }
   .actions-row {
-    gap: 5px;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4px;
+    grid-template-columns: 1fr 1fr 0.72fr;
   }
   .result-card .small-btn {
-    min-height: 34px;
+    min-height: 24px;
     font-size: 10px;
-    padding: 4px 2px;
-    border-width: 2px;
+    padding: 2px 4px;
+    border-width: 1.5px;
+    border-radius: 12px;
   }
   .mark-option-sheet {
-    border-radius: 16px;
-    padding: 6px;
+    border-radius: 10px;
+    padding: 4px;
   }
   .mark-option-row {
     gap: 4px;
   }
   .mark-option-btn,
   .mark-clear-btn {
-    min-height: 34px;
-    font-size: 12px;
-    padding: 4px 2px;
-    border-width: 2px;
+    min-height: 24px;
+    font-size: 10px;
+    padding: 2px;
+    border-width: 1.5px;
   }
 }
 
@@ -694,43 +702,43 @@ textarea { resize: vertical; }
     padding: max(22px, env(safe-area-inset-top)) 10px calc(18px + env(safe-area-inset-bottom));
   }
   .page-header {
-    padding: 18px 12px 12px;
+    padding: 16px 12px 10px;
   }
   .eyebrow {
     padding: 4px 8px;
     font-size: 10px;
   }
   .table-panel {
-    padding: 12px 10px;
+    padding: 10px 9px;
   }
   .result-list {
     gap: 8px;
   }
   .result-card {
-    padding: 10px 8px 9px;
-    border-radius: 16px;
-    gap: 8px;
+    padding: 7px 7px 6px;
+    border-radius: 8px;
+    gap: 5px;
   }
   .result-layout {
-    grid-template-columns: 38px minmax(0, 1fr) 66px;
-    gap: 5px;
+    grid-template-columns: 28px minmax(0, 1fr) 58px;
+    gap: 4px;
     align-items: start;
   }
   .status-pill {
-    min-width: 38px;
-    min-height: 36px;
-    padding: 0 4px;
-    border-width: 2px;
-    border-radius: 10px;
-    font-size: 10px;
+    min-width: 28px;
+    min-height: 22px;
+    padding: 0 2px;
+    border-width: 1px;
+    border-radius: 6px;
+    font-size: 7px;
     line-height: 1;
   }
   .result-info-panel {
-    gap: 6px;
+    gap: 3px;
     padding-top: 0;
   }
   .result-topline {
-    gap: 4px;
+    gap: 2px;
     align-items: flex-start;
   }
   .plate {
@@ -739,69 +747,71 @@ textarea { resize: vertical; }
     letter-spacing: -0.02em;
   }
   .inline-flag {
-    padding: 3px 8px;
-    font-size: 10px;
+    padding: 2px 6px;
+    font-size: 7px;
   }
   .result-info-row {
-    grid-template-columns: minmax(40px, 0.92fr) minmax(92px, 1.4fr) minmax(40px, 0.78fr);
-    gap: 6px;
+    grid-template-columns: minmax(32px, 0.82fr) minmax(92px, 1.82fr) minmax(28px, 0.62fr);
+    gap: 4px;
     align-items: end;
   }
   .info-col {
     display: grid;
-    gap: 2px;
+    gap: 1px;
     white-space: nowrap;
   }
   .info-col-label {
-    font-size: 8px;
+    font-size: 7px;
     font-weight: 600;
     line-height: 1;
   }
   .info-col-value {
-    font-size: 8px;
+    font-size: 7px;
     font-weight: 800;
     line-height: 1.08;
   }
   .info-col-entry .info-col-value {
-    font-size: 8px;
+    font-size: 7px;
   }
   .fee-panel {
-    min-height: 92px;
-    padding: 7px 4px;
-    gap: 4px;
-    border-width: 2px;
-    border-radius: 16px;
+    min-height: 30px;
+    min-width: 58px;
+    padding: 3px 2px;
+    gap: 2px;
+    border-width: 1px;
+    border-radius: 6px;
   }
   .fee-label {
-    font-size: 10px;
+    font-size: 6px;
   }
   .fee-value {
-    font-size: 22px;
+    font-size: 13px;
     line-height: 0.95;
   }
   .actions-row {
-    gap: 4px;
+    gap: 3px;
+    grid-template-columns: 1fr 1fr 0.72fr;
   }
   .result-card .small-btn {
-    min-height: 34px;
-    padding: 5px 2px;
-    border-width: 2px;
-    border-radius: 999px;
-    font-size: 9px;
+    min-height: 20px;
+    padding: 2px 2px;
+    border-width: 1px;
+    border-radius: 8px;
+    font-size: 8px;
     line-height: 1.05;
   }
   .mark-option-sheet {
-    padding: 6px;
-    border-radius: 14px;
+    padding: 4px;
+    border-radius: 8px;
   }
   .mark-option-row {
     gap: 4px;
   }
   .mark-option-btn,
   .mark-clear-btn {
-    min-height: 32px;
-    padding: 4px 2px;
-    border-width: 2px;
-    font-size: 11px;
+    min-height: 20px;
+    padding: 2px 1px;
+    border-width: 1px;
+    font-size: 8px;
   }
 }
