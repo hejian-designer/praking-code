@@ -101,10 +101,10 @@ textarea { resize: vertical; }
   line-height: 1.05;
 }
 .page-header p { margin: 0; color: var(--muted); }
-.header-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.header-actions { display: grid; grid-template-columns: 1fr; gap: 10px; }
 .header-actions button { width: 100%; }
 .header-actions:has(#installBtn[hidden]) {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  display: none;
 }
 .tool-switch {
   display: grid;
@@ -232,6 +232,15 @@ textarea { resize: vertical; }
   display: flex;
   align-items: center;
   gap: 10px;
+}
+.results-toolbar {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.results-toolbar button {
+  width: 100%;
 }
 .result-back-btn {
   min-height: 34px;
@@ -691,7 +700,7 @@ body.results-only-view .table-panel {
 
 @media (max-width: 640px) {
   .header-actions {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: 1fr;
     gap: 8px;
   }
   .stats-grid {
@@ -797,6 +806,10 @@ body.results-only-view .table-panel {
   }
   .table-header {
     margin-bottom: 8px;
+  }
+  .results-toolbar {
+    gap: 8px;
+    margin-bottom: 10px;
   }
   .table-actions {
     gap: 8px;
