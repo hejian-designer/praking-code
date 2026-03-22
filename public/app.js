@@ -31,6 +31,7 @@ const el = {
   toast: document.getElementById('toast'),
   statusText: document.getElementById('statusText'),
   installBtn: document.getElementById('installBtn'),
+  showAllResultsBtn: document.getElementById('showAllResultsBtn'),
   backToQueryBtn: document.getElementById('backToQueryBtn'),
   singleQueryBtn: document.getElementById('singleQueryBtn'),
   batchQueryBtn: document.getElementById('batchQueryBtn'),
@@ -65,6 +66,7 @@ function updateToolPanels() {
 
 function updateResultsView() {
   document.body.classList.toggle('results-only-view', state.resultsOnly);
+  el.showAllResultsBtn.hidden = state.resultsOnly;
   el.backToQueryBtn.hidden = !state.resultsOnly;
 }
 
@@ -254,7 +256,6 @@ async function querySinglePlate() {
     saveLocalData();
     render();
     el.singlePlateInput.value = '';
-    openResultsOnlyView();
     showToast('查询成功');
     setStatus('查询完成');
   } catch (error) {
@@ -287,7 +288,6 @@ async function batchQuery() {
     el.batchText.value = '';
     saveLocalData();
     render();
-    openResultsOnlyView();
     const activeCount = newCars.filter(item => item.status === 'success').length;
     showToast(`成功 ${activeCount}/${newPlates.length}`);
     setStatus('批量查询完成');
@@ -431,6 +431,7 @@ function bindEvents() {
     state.activeTool = 'batch';
     updateToolPanels();
   });
+  el.showAllResultsBtn.addEventListener('click', openResultsOnlyView);
   el.backToQueryBtn.addEventListener('click', closeResultsOnlyView);
   el.detectBtn.addEventListener('click', () => {
     state.detectedPlates = extractPlates(el.batchText.value);
