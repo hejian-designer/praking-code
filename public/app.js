@@ -168,7 +168,6 @@ function renderCards() {
             <div class="result-topline">
               <div class="plate">${item.plate}</div>
               ${item.marked && !item.isProcessed ? `<span class="inline-flag">标记 ${item.markTime}h</span>` : ''}
-              ${item.isProcessed ? '<span class="inline-flag inline-flag-success">已处理</span>' : ''}
             </div>
             <div class="result-info-row">
               <div class="info-col">
