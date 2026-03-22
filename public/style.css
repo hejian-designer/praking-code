@@ -103,6 +103,9 @@ textarea { resize: vertical; }
 .page-header p { margin: 0; color: var(--muted); }
 .header-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
 .header-actions button { width: 100%; }
+.header-actions:has(#installBtn[hidden]) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
 .tool-switch {
   display: none;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -553,7 +556,7 @@ textarea { resize: vertical; }
     display: grid;
   }
   .header-actions {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
   }
   .stats-grid {
