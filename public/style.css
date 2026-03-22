@@ -192,6 +192,8 @@ textarea { resize: vertical; }
   background: linear-gradient(180deg, rgba(251, 253, 255, 0.98), rgba(245, 249, 255, 0.98));
   box-shadow: 0 10px 30px rgba(120, 144, 190, 0.12);
   overflow: hidden;
+  display: grid;
+  gap: 18px;
 }
 .result-card-processed {
   background: linear-gradient(180deg, rgba(232, 255, 239, 0.98) 0%, rgba(244, 253, 247, 0.92) 30%, rgba(255, 255, 255, 0.98) 100%);
@@ -239,9 +241,8 @@ textarea { resize: vertical; }
 .result-info-panel {
   min-width: 0;
   display: grid;
-  grid-template-rows: auto auto auto;
-  gap: 18px;
-  align-content: stretch;
+  gap: 14px;
+  align-content: start;
 }
 .result-topline {
   display: flex;
@@ -431,6 +432,7 @@ textarea { resize: vertical; }
 @media (max-width: 1080px) {
   .result-card {
     padding: 14px;
+    gap: 14px;
   }
   .result-layout {
     grid-template-columns: 92px minmax(0, 1fr) 150px;
@@ -446,7 +448,7 @@ textarea { resize: vertical; }
     font-size: 22px;
   }
   .result-info-panel {
-    gap: 14px;
+    gap: 12px;
     padding-top: 2px;
   }
   .plate {
@@ -548,36 +550,37 @@ textarea { resize: vertical; }
   }
   .result-card {
     padding: 14px 12px;
+    gap: 12px;
   }
   .result-layout {
-    grid-template-columns: 82px minmax(0, 1fr) 108px;
-    gap: 10px;
+    grid-template-columns: 76px minmax(0, 1fr) 96px;
+    gap: 8px;
     align-items: start;
   }
   .plate {
-    font-size: 26px;
+    font-size: 24px;
     line-height: 1.05;
   }
   .status-pill {
-    min-width: 82px;
-    min-height: 92px;
+    min-width: 76px;
+    min-height: 86px;
     border-width: 3px;
-    border-radius: 24px;
-    padding: 0 10px;
-    font-size: 18px;
+    border-radius: 22px;
+    padding: 0 8px;
+    font-size: 17px;
     line-height: 1.15;
   }
   .result-info-panel {
-    gap: 12px;
-    padding-top: 2px;
+    gap: 10px;
+    padding-top: 0;
   }
   .result-info-row {
-    grid-template-columns: minmax(42px, 0.58fr) minmax(98px, 1.24fr) minmax(46px, 0.5fr);
-    gap: 12px;
+    grid-template-columns: minmax(42px, 0.62fr) minmax(92px, 1.26fr) minmax(44px, 0.54fr);
+    gap: 8px;
     align-items: start;
   }
   .info-col {
-    gap: 6px;
+    gap: 4px;
   }
   .info-col-label {
     font-size: 11px;
@@ -585,33 +588,34 @@ textarea { resize: vertical; }
   }
   .info-col-value {
     white-space: nowrap;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.15;
   }
   .info-col-entry .info-col-value {
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0;
   }
   .fee-panel {
     border-width: 3px;
-    border-radius: 26px;
-    gap: 10px;
-    padding: 18px 10px;
-    min-height: 168px;
+    border-radius: 24px;
+    gap: 8px;
+    padding: 14px 8px;
+    min-height: 140px;
   }
   .fee-label {
-    font-size: 15px;
+    font-size: 14px;
   }
   .fee-value {
-    font-size: 42px;
+    font-size: 34px;
   }
   .actions-row {
     gap: 8px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .result-card .small-btn {
-    min-height: 54px;
-    font-size: 13px;
-    padding: 8px 6px;
+    min-height: 46px;
+    font-size: 12px;
+    padding: 8px 4px;
     border-width: 2px;
   }
   .mark-option-sheet {
@@ -643,23 +647,24 @@ textarea { resize: vertical; }
   .result-card {
     padding: 14px 12px 12px;
     border-radius: 20px;
+    gap: 12px;
   }
   .result-layout {
-    grid-template-columns: 78px minmax(0, 1fr) 104px;
-    gap: 10px;
+    grid-template-columns: 70px minmax(0, 1fr) 94px;
+    gap: 8px;
     align-items: start;
   }
   .status-pill {
-    min-width: 78px;
-    min-height: 86px;
-    padding: 0 8px;
+    min-width: 70px;
+    min-height: 82px;
+    padding: 0 6px;
     border-width: 3px;
-    border-radius: 22px;
-    font-size: 17px;
+    border-radius: 20px;
+    font-size: 16px;
     line-height: 1.12;
   }
   .result-info-panel {
-    gap: 10px;
+    gap: 9px;
     padding-top: 0;
   }
   .result-topline {
@@ -667,7 +672,7 @@ textarea { resize: vertical; }
     align-items: flex-start;
   }
   .plate {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1.02;
     letter-spacing: -0.02em;
   }
@@ -676,8 +681,8 @@ textarea { resize: vertical; }
     font-size: 12px;
   }
   .result-info-row {
-    grid-template-columns: minmax(44px, 0.54fr) minmax(106px, 1.22fr) minmax(44px, 0.48fr);
-    gap: 10px;
+    grid-template-columns: minmax(40px, 0.6fr) minmax(96px, 1.24fr) minmax(40px, 0.52fr);
+    gap: 8px;
     align-items: start;
   }
   .info-col {
@@ -688,35 +693,35 @@ textarea { resize: vertical; }
     line-height: 1;
   }
   .info-col-value {
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1.12;
   }
   .info-col-entry .info-col-value {
-    font-size: 10px;
+    font-size: 9px;
   }
   .fee-panel {
-    min-height: 156px;
-    padding: 16px 8px;
-    gap: 8px;
+    min-height: 132px;
+    padding: 12px 6px;
+    gap: 6px;
     border-width: 3px;
-    border-radius: 24px;
+    border-radius: 22px;
   }
   .fee-label {
-    font-size: 14px;
+    font-size: 13px;
   }
   .fee-value {
-    font-size: 38px;
+    font-size: 30px;
     line-height: 0.95;
   }
   .actions-row {
     gap: 6px;
   }
   .result-card .small-btn {
-    min-height: 50px;
-    padding: 8px 4px;
+    min-height: 44px;
+    padding: 8px 2px;
     border-width: 2px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 1.05;
   }
   .mark-option-sheet {

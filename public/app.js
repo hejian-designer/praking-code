@@ -187,18 +187,18 @@ function renderCards() {
                 <div class="info-col-value">${item.todayHoursFixed || '0.0'}h</div>
               </div>
             </div>
-            <div class="actions-row">
-              <button class="small-btn mark-btn ${markExpanded ? 'mark-btn-active' : ''}" data-action="mark" data-index="${index}">${markText}</button>
-              <button class="small-btn done-btn" data-action="done" data-index="${index}">${item.isProcessed ? '取消已处理' : '标记已处理'}</button>
-              <button class="small-btn danger-btn" data-action="delete" data-index="${index}">删除</button>
-            </div>
-            ${markOptions}
           </div>
           <div class="fee-panel ${isSuccess ? 'fee-panel-success' : 'fee-panel-muted'}">
             <div class="fee-label">欠费</div>
             <div class="fee-value">¥${item.needPay || 0}</div>
           </div>
         </div>
+        <div class="actions-row">
+          <button class="small-btn mark-btn ${markExpanded ? 'mark-btn-active' : ''}" data-action="mark" data-index="${index}">${markText}</button>
+          <button class="small-btn done-btn" data-action="done" data-index="${index}">${item.isProcessed ? '取消已处理' : '标记已处理'}</button>
+          <button class="small-btn danger-btn" data-action="delete" data-index="${index}">删除</button>
+        </div>
+        ${markOptions}
       </article>`;
   }).join('');
 }
