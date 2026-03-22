@@ -10,6 +10,7 @@ const state = {
   refreshTimer: null,
   deferredInstallPrompt: null,
   activeTool: 'single',
+  queryPanelOpen: false,
   expandedMarkIndex: null,
   resultsOnly: false
 };
@@ -57,11 +58,12 @@ function updateInstallButton() {
 }
 
 function updateToolPanels() {
-  const isSingle = state.activeTool === 'single';
+  const isSingle = state.queryPanelOpen && state.activeTool === 'single';
+  const isBatch = state.queryPanelOpen && state.activeTool === 'batch';
   el.singleToolBtn.classList.toggle('tool-tab-active', isSingle);
-  el.batchToolBtn.classList.toggle('tool-tab-active', !isSingle);
-  el.singlePanel.classList.toggle('panel-hidden-mobile', !isSingle);
-  el.batchPanel.classList.toggle('panel-hidden-mobile', isSingle);
+  el.batchToolBtn.classList.toggle('tool-tab-active', isBatch);
+  el.singlePanel.hidden = !isSingle;
+  el.batchPanel.hidden = !isBatch;
 }
 
 function updateResultsView() {
@@ -423,12 +425,22 @@ function bindEvents() {
   });
   el.singleToolBtn.addEventListener('click', () => {
     closeResultsOnlyView();
-    state.activeTool = 'single';
+    if (state.activeTool === 'single' && state.queryPanelOpen) {
+      state.queryPanelOpen = false;
+    } else {
+      state.activeTool = 'single';
+      state.queryPanelOpen = true;
+    }
     updateToolPanels();
   });
   el.batchToolBtn.addEventListener('click', () => {
     closeResultsOnlyView();
-    state.activeTool = 'batch';
+    if (state.activeTool === 'batch' && state.queryPanelOpen) {
+      state.queryPanelOpen = false;
+    } else {
+      state.activeTool = 'batch';
+      state.queryPanelOpen = true;
+    }
     updateToolPanels();
   });
   el.showAllResultsBtn.addEventListener('click', openResultsOnlyView);
