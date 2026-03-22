@@ -3,17 +3,27 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>停车查询网站</title>
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="停车查询" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>停车查询</title>
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./icons/icon-192.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./icons/icon-192.svg" />
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
     <div class="app-shell">
       <header class="page-header card">
-        <div>
-          <h1>停车查询网站</h1>
-          <p>支持单车查询、批量提取、标记处理、本地缓存与整点自动刷新。</p>
+        <div class="header-copy">
+          <div class="eyebrow">PWA 手机版</div>
+          <h1>停车查询</h1>
+          <p>像 App 一样安装到手机桌面，支持单车查询、批量提取、本地缓存与整点刷新。</p>
         </div>
         <div class="header-actions">
+          <button id="installBtn" class="install-btn" hidden>安装到桌面</button>
           <button id="refreshBtn" class="secondary-btn">刷新在场车辆</button>
           <button id="clearBtn" class="danger-btn">清空列表</button>
         </div>
@@ -38,7 +48,7 @@
         <article class="card panel">
           <h2>单车查询</h2>
           <div class="input-row">
-            <input id="singlePlateInput" type="text" placeholder="请输入车牌号，例如：沪GAJ226" maxlength="12" />
+            <input id="singlePlateInput" type="text" inputmode="text" placeholder="请输入车牌号，例如：沪GAJ226" maxlength="12" />
             <button id="singleQueryBtn" class="primary-btn">查询</button>
           </div>
           <p class="hint">会自动转大写，并把新结果插入列表顶部。</p>

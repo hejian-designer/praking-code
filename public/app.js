@@ -6,7 +6,8 @@ const state = {
   detectedPlates: [],
   loading: false,
   alignTimer: null,
-  refreshTimer: null
+  refreshTimer: null,
+  deferredInstallPrompt: null
 };
 
 const el = {
@@ -21,6 +22,7 @@ const el = {
   emptyState: document.getElementById('emptyState'),
   toast: document.getElementById('toast'),
   statusText: document.getElementById('statusText'),
+  installBtn: document.getElementById('installBtn'),
   singleQueryBtn: document.getElementById('singleQueryBtn'),
   batchQueryBtn: document.getElementById('batchQueryBtn'),
   detectBtn: document.getElementById('detectBtn'),
@@ -37,6 +39,11 @@ function showToast(message) {
   el.toast.classList.add('show');
   clearTimeout(showToast._timer);
   showToast._timer = setTimeout(() => el.toast.classList.remove('show'), 1800);
+}
+
+function updateInstallButton() {
+  const visible = Boolean(state.deferredInstallPrompt);
+  el.installBtn.hidden = !visible;
 }
 
 function loadLocalData() {
@@ -302,6 +309,16 @@ function deleteItem(index) {
 }
 
 function bindEvents() {
+  el.installBtn.addEventListener('click', async () => {
+    if (!state.deferredInstallPrompt) return;
+    state.deferredInstallPrompt.prompt();
+    const choice = await state.deferredInstallPrompt.userChoice;
+    if (choice.outcome === 'accepted') {
+      showToast('已发起安装');
+    }
+    state.deferredInstallPrompt = null;
+    updateInstallButton();
+  });
   el.detectBtn.addEventListener('click', () => {
     state.detectedPlates = extractPlates(el.batchText.value);
     renderDetectedPlates();
@@ -335,13 +352,33 @@ function bindEvents() {
   });
 
   window.addEventListener('beforeunload', stopAutoRefresh);
+  window.addEventListener('beforeinstallprompt', event => {
+    event.preventDefault();
+    state.deferredInstallPrompt = event;
+    updateInstallButton();
+  });
+  window.addEventListener('appinstalled', () => {
+    state.deferredInstallPrompt = null;
+    updateInstallButton();
+    showToast('已安装到桌面');
+  });
+  window.addEventListener('online', () => setStatus('网络已恢复'));
+  window.addEventListener('offline', () => setStatus('当前处于离线模式'));
 }
 
 async function boot() {
   loadLocalData();
   bindEvents();
+  updateInstallButton();
   render();
   startAutoRefresh();
+  if ('serviceWorker' in navigator) {
+    try {
+      await navigator.serviceWorker.register('./sw.js');
+    } catch (error) {
+      console.error('service worker register failed', error);
+    }
+  }
   try {
     const resp = await fetch('/api/health');
     const data = await resp.json();
