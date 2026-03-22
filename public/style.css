@@ -107,11 +107,14 @@ textarea { resize: vertical; }
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .tool-switch {
-  display: none;
+  display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   padding: 8px;
-  margin-bottom: 12px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(241, 246, 255, 0.95), rgba(233, 240, 255, 0.92));
+  border: 1px solid rgba(176, 195, 230, 0.28);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 .tool-tab {
   background: transparent;
@@ -584,6 +587,10 @@ body.results-only-view .table-panel {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
   }
+  .tool-switch {
+    grid-column: 1 / -1;
+    max-width: 440px;
+  }
   .panel-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -683,9 +690,6 @@ body.results-only-view .table-panel {
 }
 
 @media (max-width: 640px) {
-  .tool-switch {
-    display: grid;
-  }
   .header-actions {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
@@ -734,7 +738,8 @@ body.results-only-view .table-panel {
   }
   .tool-switch {
     gap: 8px;
-    padding: 8px 14px;
+    padding: 8px;
+    border-radius: 18px;
   }
   .panel-hidden-mobile {
     display: none;
