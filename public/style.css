@@ -514,11 +514,13 @@ textarea { resize: vertical; }
   }
   .header-actions {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
   }
   .stats-grid {
-    grid-template-columns: repeat(3, minmax(110px, 1fr));
+    grid-template-columns: repeat(3, minmax(96px, 1fr));
     overflow-x: auto;
     padding-bottom: 2px;
+    gap: 10px;
   }
   .page-header, .table-header {
     position: static;
@@ -530,212 +532,252 @@ textarea { resize: vertical; }
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
   .page-header {
-    gap: 12px;
-    padding: 16px 14px;
+    gap: 10px;
+    padding: 14px 14px 12px;
   }
   .page-header h1 {
-    font-size: 24px;
+    font-size: 22px;
   }
   .page-header p {
-    font-size: 13px;
+    font-size: 12px;
   }
   .header-actions button,
   .tool-tab {
-    min-height: 40px;
-    font-size: 13px;
-    padding: 8px 10px;
+    min-height: 38px;
+    font-size: 12px;
+    padding: 7px 10px;
+  }
+  .tool-switch {
+    gap: 6px;
+    padding: 6px;
   }
   .panel-hidden-mobile {
     display: none;
   }
-  .result-card {
+  .stat-card {
+    padding: 12px 12px 10px;
+  }
+  .stat-label {
+    font-size: 11px;
+    margin-bottom: 4px;
+  }
+  .stat-value {
+    font-size: 20px;
+  }
+  .panel,
+  .table-panel {
     padding: 14px 12px;
-    gap: 12px;
+  }
+  .panel h2,
+  .table-panel h2 {
+    margin-bottom: 10px;
+    font-size: 16px;
+  }
+  .input-row {
+    gap: 8px;
+  }
+  input,
+  textarea {
+    padding: 12px 14px;
+  }
+  .hint {
+    margin-top: 6px;
+    font-size: 12px;
+  }
+  .table-header {
+    margin-bottom: 8px;
+  }
+  .result-card {
+    padding: 12px 10px;
+    gap: 10px;
   }
   .result-layout {
-    grid-template-columns: 76px minmax(0, 1fr) 96px;
-    gap: 8px;
+    grid-template-columns: 68px minmax(0, 1fr) 86px;
+    gap: 6px;
     align-items: start;
   }
   .plate {
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1.05;
   }
   .status-pill {
-    min-width: 76px;
-    min-height: 86px;
+    min-width: 68px;
+    min-height: 76px;
     border-width: 3px;
-    border-radius: 22px;
-    padding: 0 8px;
-    font-size: 17px;
+    border-radius: 20px;
+    padding: 0 6px;
+    font-size: 16px;
     line-height: 1.15;
   }
   .result-info-panel {
-    gap: 10px;
+    gap: 8px;
     padding-top: 0;
   }
+  .result-topline {
+    gap: 5px;
+  }
   .result-info-row {
-    grid-template-columns: minmax(42px, 0.62fr) minmax(92px, 1.26fr) minmax(44px, 0.54fr);
-    gap: 8px;
+    grid-template-columns: minmax(38px, 0.56fr) minmax(94px, 1.42fr) minmax(34px, 0.42fr);
+    gap: 6px;
     align-items: start;
   }
   .info-col {
-    gap: 4px;
+    gap: 3px;
   }
   .info-col-label {
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1;
   }
   .info-col-value {
     white-space: nowrap;
-    font-size: 11px;
-    line-height: 1.15;
+    font-size: 10px;
+    line-height: 1.1;
   }
   .info-col-entry .info-col-value {
-    font-size: 10px;
+    font-size: 9px;
     letter-spacing: 0;
   }
   .fee-panel {
     border-width: 3px;
-    border-radius: 24px;
-    gap: 8px;
-    padding: 14px 8px;
-    min-height: 140px;
+    border-radius: 20px;
+    gap: 6px;
+    padding: 10px 6px;
+    min-height: 116px;
   }
   .fee-label {
-    font-size: 14px;
+    font-size: 13px;
   }
   .fee-value {
-    font-size: 34px;
+    font-size: 28px;
   }
   .actions-row {
-    gap: 8px;
+    gap: 6px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .result-card .small-btn {
-    min-height: 46px;
-    font-size: 12px;
-    padding: 8px 4px;
+    min-height: 40px;
+    font-size: 11px;
+    padding: 6px 3px;
     border-width: 2px;
   }
   .mark-option-sheet {
-    border-radius: 18px;
-    padding: 8px;
+    border-radius: 16px;
+    padding: 6px;
   }
   .mark-option-row {
-    gap: 6px;
+    gap: 4px;
   }
   .mark-option-btn,
   .mark-clear-btn {
-    min-height: 38px;
-    font-size: 13px;
-    padding: 6px 4px;
+    min-height: 34px;
+    font-size: 12px;
+    padding: 4px 2px;
     border-width: 2px;
   }
 }
 
 @media (max-width: 440px) and (min-height: 900px) {
   .app-shell {
-    padding: max(14px, env(safe-area-inset-top)) 12px calc(22px + env(safe-area-inset-bottom));
+    padding: max(12px, env(safe-area-inset-top)) 10px calc(18px + env(safe-area-inset-bottom));
   }
   .table-panel {
-    padding: 14px 12px;
+    padding: 12px 10px;
   }
   .result-list {
-    gap: 10px;
+    gap: 8px;
   }
   .result-card {
-    padding: 14px 12px 12px;
-    border-radius: 20px;
-    gap: 12px;
+    padding: 11px 9px 10px;
+    border-radius: 18px;
+    gap: 9px;
   }
   .result-layout {
-    grid-template-columns: 70px minmax(0, 1fr) 94px;
-    gap: 8px;
+    grid-template-columns: 62px minmax(0, 1fr) 82px;
+    gap: 6px;
     align-items: start;
   }
   .status-pill {
-    min-width: 70px;
-    min-height: 82px;
-    padding: 0 6px;
+    min-width: 62px;
+    min-height: 70px;
+    padding: 0 4px;
     border-width: 3px;
-    border-radius: 20px;
-    font-size: 16px;
+    border-radius: 18px;
+    font-size: 15px;
     line-height: 1.12;
   }
   .result-info-panel {
-    gap: 9px;
+    gap: 7px;
     padding-top: 0;
   }
   .result-topline {
-    gap: 6px;
+    gap: 4px;
     align-items: flex-start;
   }
   .plate {
-    font-size: 22px;
+    font-size: 20px;
     line-height: 1.02;
     letter-spacing: -0.02em;
   }
   .inline-flag {
-    padding: 4px 10px;
-    font-size: 12px;
+    padding: 3px 8px;
+    font-size: 11px;
   }
   .result-info-row {
-    grid-template-columns: minmax(40px, 0.6fr) minmax(96px, 1.24fr) minmax(40px, 0.52fr);
-    gap: 8px;
+    grid-template-columns: minmax(34px, 0.54fr) minmax(88px, 1.5fr) minmax(30px, 0.36fr);
+    gap: 5px;
     align-items: start;
   }
   .info-col {
-    gap: 4px;
+    gap: 3px;
   }
   .info-col-label {
-    font-size: 11px;
+    font-size: 9px;
     line-height: 1;
   }
   .info-col-value {
-    font-size: 10px;
-    line-height: 1.12;
+    font-size: 9px;
+    line-height: 1.08;
   }
   .info-col-entry .info-col-value {
-    font-size: 9px;
+    font-size: 8px;
   }
   .fee-panel {
-    min-height: 132px;
-    padding: 12px 6px;
-    gap: 6px;
+    min-height: 104px;
+    padding: 9px 5px;
+    gap: 5px;
     border-width: 3px;
-    border-radius: 22px;
+    border-radius: 18px;
   }
   .fee-label {
-    font-size: 13px;
+    font-size: 11px;
   }
   .fee-value {
-    font-size: 30px;
+    font-size: 24px;
     line-height: 0.95;
   }
   .actions-row {
-    gap: 6px;
+    gap: 5px;
   }
   .result-card .small-btn {
-    min-height: 44px;
-    padding: 8px 2px;
+    min-height: 38px;
+    padding: 6px 2px;
     border-width: 2px;
     border-radius: 999px;
-    font-size: 11px;
+    font-size: 10px;
     line-height: 1.05;
   }
   .mark-option-sheet {
-    padding: 7px;
-    border-radius: 16px;
+    padding: 6px;
+    border-radius: 14px;
   }
   .mark-option-row {
-    gap: 5px;
+    gap: 4px;
   }
   .mark-option-btn,
   .mark-clear-btn {
-    min-height: 36px;
-    padding: 5px 4px;
+    min-height: 32px;
+    padding: 4px 2px;
     border-width: 2px;
-    font-size: 12px;
+    font-size: 11px;
   }
 }
