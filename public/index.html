@@ -20,7 +20,7 @@
         <div class="header-copy">
           <div class="eyebrow">PWA 手机版</div>
           <h1>停车查询</h1>
-          <p>像 App 一样安装到手机桌面，支持单车查询、批量提取、本地缓存与整点刷新。</p>
+          <p>手机优先的停车查询工具，支持安装、本地缓存与整点刷新。</p>
         </div>
         <div class="header-actions">
           <button id="installBtn" class="install-btn" hidden>安装到桌面</button>
@@ -44,8 +44,13 @@
         </article>
       </section>
 
+      <section class="tool-switch card">
+        <button id="singleToolBtn" class="tool-tab tool-tab-active">单车查询</button>
+        <button id="batchToolBtn" class="tool-tab">批量查询</button>
+      </section>
+
       <section class="panel-grid">
-        <article class="card panel">
+        <article id="singlePanel" class="card panel">
           <h2>单车查询</h2>
           <div class="input-row">
             <input id="singlePlateInput" type="text" inputmode="text" placeholder="请输入车牌号，例如：沪GAJ226" maxlength="12" />
@@ -54,9 +59,9 @@
           <p class="hint">会自动转大写，并把新结果插入列表顶部。</p>
         </article>
 
-        <article class="card panel">
+        <article id="batchPanel" class="card panel">
           <h2>批量查询</h2>
-          <textarea id="batchText" rows="7" placeholder="粘贴任意文本，系统会自动提取车牌号"></textarea>
+          <textarea id="batchText" rows="4" placeholder="粘贴任意文本，系统会自动提取车牌号"></textarea>
           <div class="detected-row">
             <div>
               <strong>已识别：</strong>

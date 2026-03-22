@@ -8,7 +8,8 @@ const state = {
   loading: false,
   alignTimer: null,
   refreshTimer: null,
-  deferredInstallPrompt: null
+  deferredInstallPrompt: null,
+  activeTool: 'single'
 };
 
 const el = {
@@ -16,6 +17,10 @@ const el = {
   processedCount: document.getElementById('processedCount'),
   totalFee: document.getElementById('totalFee'),
   singlePlateInput: document.getElementById('singlePlateInput'),
+  singleToolBtn: document.getElementById('singleToolBtn'),
+  batchToolBtn: document.getElementById('batchToolBtn'),
+  singlePanel: document.getElementById('singlePanel'),
+  batchPanel: document.getElementById('batchPanel'),
   batchText: document.getElementById('batchText'),
   detectedSummary: document.getElementById('detectedSummary'),
   detectedList: document.getElementById('detectedList'),
@@ -45,6 +50,14 @@ function showToast(message) {
 function updateInstallButton() {
   const visible = Boolean(state.deferredInstallPrompt);
   el.installBtn.hidden = !visible;
+}
+
+function updateToolPanels() {
+  const isSingle = state.activeTool === 'single';
+  el.singleToolBtn.classList.toggle('tool-tab-active', isSingle);
+  el.batchToolBtn.classList.toggle('tool-tab-active', !isSingle);
+  el.singlePanel.classList.toggle('panel-hidden-mobile', !isSingle);
+  el.batchPanel.classList.toggle('panel-hidden-mobile', isSingle);
 }
 
 function loadLocalData() {
@@ -346,6 +359,14 @@ function bindEvents() {
     state.deferredInstallPrompt = null;
     updateInstallButton();
   });
+  el.singleToolBtn.addEventListener('click', () => {
+    state.activeTool = 'single';
+    updateToolPanels();
+  });
+  el.batchToolBtn.addEventListener('click', () => {
+    state.activeTool = 'batch';
+    updateToolPanels();
+  });
   el.detectBtn.addEventListener('click', () => {
     state.detectedPlates = extractPlates(el.batchText.value);
     renderDetectedPlates();
@@ -399,6 +420,7 @@ async function boot() {
   loadLocalData();
   bindEvents();
   updateInstallButton();
+  updateToolPanels();
   render();
   startAutoRefresh();
   if ('serviceWorker' in navigator) {
