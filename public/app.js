@@ -255,6 +255,9 @@ function syncOpenMarkPicker() {
   requestAnimationFrame(() => {
     picker.dataset.ready = 'false';
     picker.dataset.interacting = 'false';
+    picker.dataset.dragging = 'false';
+    picker.dataset.suppressClick = 'false';
+    picker.dataset.startY = '';
     const offset = target.offsetTop - (picker.clientHeight - target.offsetHeight) / 2;
     picker.scrollTop = Math.max(0, offset);
     requestAnimationFrame(() => {
@@ -546,6 +549,11 @@ function bindEvents() {
     const action = target.dataset.action;
     const index = Number(target.dataset.index);
     if (!Number.isInteger(index)) return;
+    const picker = target.closest('.mark-picker-scroll');
+    if (picker && picker.dataset.suppressClick === 'true') {
+      event.preventDefault();
+      return;
+    }
     if (action === 'mark') promptMark(index);
     if (action === 'select-mark') selectMark(index, target.dataset.value || '');
     if (action === 'clear-mark') clearMark(index);
@@ -558,6 +566,8 @@ function bindEvents() {
     if (!picker) return;
     clearTimeout(state.markSelectTimer);
     picker.dataset.interacting = 'true';
+    picker.dataset.dragging = 'false';
+    picker.dataset.suppressClick = 'false';
   });
 
   const queuePickerSettle = event => {
@@ -568,11 +578,59 @@ function bindEvents() {
     if (!Number.isInteger(index)) return;
     picker.dataset.interacting = 'false';
     clearTimeout(state.markSelectTimer);
+    if (picker.dataset.dragging === 'true') {
+      picker.dataset.suppressClick = 'true';
+      setTimeout(() => {
+        if (picker.isConnected) picker.dataset.suppressClick = 'false';
+      }, 320);
+    }
     state.markSelectTimer = setTimeout(() => settleMarkPicker(index), 160);
   };
 
   el.cardList.addEventListener('pointerup', queuePickerSettle, true);
   el.cardList.addEventListener('pointercancel', queuePickerSettle, true);
+
+  el.cardList.addEventListener('touchstart', event => {
+    const picker = event.target.closest('.mark-picker-scroll');
+    if (!picker) return;
+    clearTimeout(state.markSelectTimer);
+    picker.dataset.interacting = 'true';
+    picker.dataset.dragging = 'false';
+    picker.dataset.suppressClick = 'false';
+    const touch = event.touches[0];
+    picker.dataset.startY = touch ? String(touch.clientY) : '';
+  }, { passive: true, capture: true });
+
+  el.cardList.addEventListener('touchmove', event => {
+    const picker = event.target.closest('.mark-picker-scroll');
+    if (!picker) return;
+    const touch = event.touches[0];
+    const startY = Number(picker.dataset.startY || '0');
+    if (touch && Number.isFinite(startY) && Math.abs(touch.clientY - startY) > 6) {
+      picker.dataset.dragging = 'true';
+    }
+  }, { passive: true, capture: true });
+
+  const handleTouchEnd = event => {
+    const picker = event.target.closest('.mark-picker-scroll');
+    if (!picker) return;
+    if (picker.dataset.ready !== 'true') return;
+    const index = Number(picker.dataset.index);
+    if (!Number.isInteger(index)) return;
+    picker.dataset.interacting = 'false';
+    picker.dataset.startY = '';
+    clearTimeout(state.markSelectTimer);
+    if (picker.dataset.dragging === 'true') {
+      picker.dataset.suppressClick = 'true';
+      setTimeout(() => {
+        if (picker.isConnected) picker.dataset.suppressClick = 'false';
+      }, 320);
+      state.markSelectTimer = setTimeout(() => settleMarkPicker(index), 180);
+    }
+  };
+
+  el.cardList.addEventListener('touchend', handleTouchEnd, true);
+  el.cardList.addEventListener('touchcancel', handleTouchEnd, true);
 
   el.cardList.addEventListener('scroll', event => {
     const picker = event.target.closest('.mark-picker-scroll');
