@@ -564,6 +564,7 @@ function bindEvents() {
   el.cardList.addEventListener('pointerdown', event => {
     const picker = event.target.closest('.mark-picker-scroll');
     if (!picker) return;
+    if (event.pointerType === 'touch') return;
     clearTimeout(state.markSelectTimer);
     picker.dataset.interacting = 'true';
     picker.dataset.dragging = 'false';
@@ -573,6 +574,7 @@ function bindEvents() {
   const queuePickerSettle = event => {
     const picker = event.target.closest('.mark-picker-scroll');
     if (!picker) return;
+    if (event.pointerType === 'touch') return;
     if (picker.dataset.ready !== 'true') return;
     const index = Number(picker.dataset.index);
     if (!Number.isInteger(index)) return;
@@ -588,7 +590,6 @@ function bindEvents() {
   };
 
   el.cardList.addEventListener('pointerup', queuePickerSettle, true);
-  el.cardList.addEventListener('pointercancel', queuePickerSettle, true);
 
   el.cardList.addEventListener('touchstart', event => {
     const picker = event.target.closest('.mark-picker-scroll');
@@ -630,7 +631,14 @@ function bindEvents() {
   };
 
   el.cardList.addEventListener('touchend', handleTouchEnd, true);
-  el.cardList.addEventListener('touchcancel', handleTouchEnd, true);
+  el.cardList.addEventListener('touchcancel', event => {
+    const picker = event.target.closest('.mark-picker-scroll');
+    if (!picker) return;
+    picker.dataset.interacting = 'false';
+    picker.dataset.dragging = 'false';
+    picker.dataset.startY = '';
+    clearTimeout(state.markSelectTimer);
+  }, true);
 
   el.cardList.addEventListener('scroll', event => {
     const picker = event.target.closest('.mark-picker-scroll');
