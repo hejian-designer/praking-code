@@ -109,11 +109,12 @@ textarea { resize: vertical; }
 .tool-switch {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 10px;
   padding: 0;
   background: transparent;
   border: 0;
   box-shadow: none;
+  width: 100%;
 }
 .tool-tab {
   min-height: 48px;
@@ -239,6 +240,7 @@ textarea { resize: vertical; }
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   margin-bottom: 12px;
+  width: 100%;
 }
 .results-toolbar button {
   width: 100%;
@@ -604,7 +606,7 @@ body.results-only-view .table-panel {
   }
   .tool-switch {
     grid-column: 1 / -1;
-    max-width: 440px;
+    max-width: none;
   }
   .panel-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
