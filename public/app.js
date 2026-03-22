@@ -10,7 +10,8 @@ const state = {
   refreshTimer: null,
   deferredInstallPrompt: null,
   activeTool: 'single',
-  expandedMarkIndex: null
+  expandedMarkIndex: null,
+  resultsOnly: false
 };
 
 const el = {
@@ -30,6 +31,7 @@ const el = {
   toast: document.getElementById('toast'),
   statusText: document.getElementById('statusText'),
   installBtn: document.getElementById('installBtn'),
+  backToQueryBtn: document.getElementById('backToQueryBtn'),
   singleQueryBtn: document.getElementById('singleQueryBtn'),
   batchQueryBtn: document.getElementById('batchQueryBtn'),
   detectBtn: document.getElementById('detectBtn'),
@@ -59,6 +61,22 @@ function updateToolPanels() {
   el.batchToolBtn.classList.toggle('tool-tab-active', !isSingle);
   el.singlePanel.classList.toggle('panel-hidden-mobile', !isSingle);
   el.batchPanel.classList.toggle('panel-hidden-mobile', isSingle);
+}
+
+function updateResultsView() {
+  document.body.classList.toggle('results-only-view', state.resultsOnly);
+  el.backToQueryBtn.hidden = !state.resultsOnly;
+}
+
+function openResultsOnlyView() {
+  state.resultsOnly = true;
+  updateResultsView();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeResultsOnlyView() {
+  state.resultsOnly = false;
+  updateResultsView();
 }
 
 function loadLocalData() {
@@ -236,6 +254,7 @@ async function querySinglePlate() {
     saveLocalData();
     render();
     el.singlePlateInput.value = '';
+    openResultsOnlyView();
     showToast('查询成功');
     setStatus('查询完成');
   } catch (error) {
@@ -268,6 +287,7 @@ async function batchQuery() {
     el.batchText.value = '';
     saveLocalData();
     render();
+    openResultsOnlyView();
     const activeCount = newCars.filter(item => item.status === 'success').length;
     showToast(`成功 ${activeCount}/${newPlates.length}`);
     setStatus('批量查询完成');
@@ -327,8 +347,10 @@ function stopAutoRefresh() {
 function clearList() {
   if (!window.confirm('确定要清空所有记录吗？')) return;
   state.carList = [];
+  state.resultsOnly = false;
   saveLocalData();
   render();
+  updateResultsView();
   showToast('已清空');
 }
 
@@ -380,8 +402,12 @@ function deleteItem(index) {
   if (state.expandedMarkIndex === index) {
     state.expandedMarkIndex = null;
   }
+  if (state.carList.length === 0) {
+    state.resultsOnly = false;
+  }
   saveLocalData();
   render();
+  updateResultsView();
 }
 
 function bindEvents() {
@@ -396,13 +422,16 @@ function bindEvents() {
     updateInstallButton();
   });
   el.singleToolBtn.addEventListener('click', () => {
+    closeResultsOnlyView();
     state.activeTool = 'single';
     updateToolPanels();
   });
   el.batchToolBtn.addEventListener('click', () => {
+    closeResultsOnlyView();
     state.activeTool = 'batch';
     updateToolPanels();
   });
+  el.backToQueryBtn.addEventListener('click', closeResultsOnlyView);
   el.detectBtn.addEventListener('click', () => {
     state.detectedPlates = extractPlates(el.batchText.value);
     renderDetectedPlates();
@@ -457,6 +486,7 @@ async function boot() {
   bindEvents();
   updateInstallButton();
   updateToolPanels();
+  updateResultsView();
   render();
   startAutoRefresh();
   if ('serviceWorker' in navigator) {
