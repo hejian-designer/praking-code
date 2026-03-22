@@ -201,23 +201,24 @@ textarea { resize: vertical; }
 }
 .result-layout {
   display: grid;
-  grid-template-columns: 128px minmax(0, 1fr) 220px;
-  gap: 22px;
-  align-items: stretch;
+  grid-template-columns: 118px minmax(0, 1fr) 206px;
+  gap: 20px;
+  align-items: start;
 }
 .status-pill {
-  min-height: 88px;
-  min-width: 104px;
-  border-radius: 30px;
+  min-height: 72px;
+  min-width: 106px;
+  border-radius: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
   align-self: start;
   justify-self: start;
   padding: 0 18px;
-  border: 5px solid transparent;
+  border: 4px solid transparent;
   text-align: center;
-  font-size: 28px;
+  white-space: nowrap;
+  font-size: 24px;
   font-weight: 800;
   line-height: 1;
 }
@@ -233,15 +234,15 @@ textarea { resize: vertical; }
 }
 .plate {
   font-family: "Sora", sans-serif;
-  font-size: 38px;
+  font-size: 42px;
   font-weight: 800;
-  line-height: 1.1;
+  line-height: 1.04;
   color: #132a5d;
 }
 .result-info-panel {
   min-width: 0;
   display: grid;
-  gap: 14px;
+  gap: 18px;
   align-content: start;
 }
 .result-topline {
@@ -264,24 +265,24 @@ textarea { resize: vertical; }
 }
 .result-info-row {
   display: grid;
-  grid-template-columns: minmax(110px, 0.9fr) minmax(210px, 1.6fr) minmax(110px, 0.7fr);
-  gap: 28px;
+  grid-template-columns: minmax(140px, 0.9fr) minmax(280px, 1.5fr) minmax(130px, 0.8fr);
+  gap: 24px;
   align-items: end;
 }
 .info-col {
   min-width: 0;
   display: grid;
-  gap: 10px;
+  gap: 8px;
 }
 .info-col-label {
   color: rgba(79, 85, 95, 0.92);
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 500;
   line-height: 1;
 }
 .info-col-value {
   font-weight: 800;
-  font-size: 28px;
+  font-size: 26px;
   line-height: 1.1;
   white-space: nowrap;
   overflow: hidden;
@@ -293,14 +294,14 @@ textarea { resize: vertical; }
 }
 .fee-panel {
   min-height: 100%;
-  border-radius: 38px;
-  border: 5px solid transparent;
+  border-radius: 34px;
+  border: 4px solid transparent;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 18px;
-  padding: 24px 18px;
+  gap: 14px;
+  padding: 22px 16px;
   text-align: center;
 }
 .fee-panel-success {
@@ -313,13 +314,13 @@ textarea { resize: vertical; }
 }
 .fee-label {
   color: rgba(79, 85, 95, 0.92);
-  font-size: 34px;
+  font-size: 30px;
   font-weight: 500;
   line-height: 1;
 }
 .fee-value {
   font-family: "Sora", sans-serif;
-  font-size: 64px;
+  font-size: 70px;
   line-height: 1;
   color: #00b23f;
   font-weight: 800;
@@ -327,7 +328,7 @@ textarea { resize: vertical; }
 .actions-row {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 16px;
 }
 .mark-option-sheet {
   padding: 10px;
@@ -383,13 +384,13 @@ textarea { resize: vertical; }
   box-shadow: 0 10px 24px rgba(37, 99, 235, 0.18);
 }
 .result-card .small-btn {
-  min-height: 98px;
-  padding: 16px 24px;
+  min-height: 74px;
+  padding: 12px 24px;
   border-radius: 999px;
-  border: 5px solid #2198c6;
+  border: 4px solid #2198c6;
   background: linear-gradient(180deg, #87d5f1, #78d0ef);
   color: #168cbe;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 800;
   box-shadow: none;
 }
@@ -435,62 +436,63 @@ textarea { resize: vertical; }
     gap: 14px;
   }
   .result-layout {
-    grid-template-columns: 92px minmax(0, 1fr) 150px;
-    gap: 14px;
+    grid-template-columns: 88px minmax(0, 1fr) 148px;
+    gap: 12px;
     align-items: start;
   }
   .status-pill {
-    min-width: 92px;
-    min-height: 92px;
+    min-width: 88px;
+    min-height: 58px;
     border-width: 4px;
-    border-radius: 26px;
+    border-radius: 24px;
     padding: 0 10px;
-    font-size: 22px;
+    font-size: 18px;
   }
   .result-info-panel {
     gap: 12px;
     padding-top: 2px;
   }
   .plate {
-    font-size: 28px;
+    font-size: 34px;
   }
   .inline-flag {
     padding: 6px 12px;
     font-size: 13px;
   }
   .result-info-row {
-    grid-template-columns: 0.72fr 1.2fr 0.6fr;
-    gap: 12px;
+    grid-template-columns: minmax(90px, 0.9fr) minmax(190px, 1.45fr) minmax(90px, 0.78fr);
+    gap: 14px;
   }
   .info-col {
     gap: 6px;
   }
   .info-col-label {
-    font-size: 16px;
+    font-size: 15px;
   }
   .info-col-value {
     font-size: 15px;
+    font-weight: 800;
   }
   .fee-panel {
     border-width: 4px;
     border-radius: 28px;
-    gap: 12px;
+    gap: 10px;
     padding: 16px 12px;
   }
   .fee-label {
-    font-size: 22px;
+    font-size: 20px;
   }
   .fee-value {
-    font-size: 46px;
+    font-size: 48px;
   }
   .actions-row {
     gap: 10px;
   }
   .result-card .small-btn {
-    min-height: 62px;
+    min-height: 56px;
     padding: 10px 12px;
     border-width: 3px;
-    font-size: 18px;
+    font-size: 17px;
   }
   .mark-option-sheet {
     padding: 8px;
@@ -599,77 +601,76 @@ textarea { resize: vertical; }
     gap: 8px;
   }
   .result-layout {
-    grid-template-columns: 48px minmax(0, 1fr) 78px;
-    gap: 5px;
+    grid-template-columns: 44px minmax(0, 1fr) 72px;
+    gap: 6px;
     align-items: start;
   }
   .plate {
-    font-size: 20px;
-    line-height: 1.05;
+    font-size: 22px;
+    line-height: 1.02;
   }
   .status-pill {
-    min-width: 48px;
-    min-height: 52px;
-    border-width: 3px;
-    border-radius: 14px;
+    min-width: 44px;
+    min-height: 42px;
+    border-width: 2px;
+    border-radius: 12px;
     padding: 0 2px;
-    font-size: 12px;
-    line-height: 1.05;
+    font-size: 11px;
+    line-height: 1;
   }
   .result-info-panel {
-    gap: 6px;
+    gap: 8px;
     padding-top: 0;
   }
   .result-topline {
     gap: 4px;
   }
   .result-info-row {
-    grid-template-columns: minmax(52px, 0.9fr) minmax(118px, 1.5fr) minmax(52px, 0.9fr);
-    gap: 5px;
-    align-items: center;
+    grid-template-columns: minmax(46px, 0.95fr) minmax(112px, 1.45fr) minmax(46px, 0.85fr);
+    gap: 8px;
+    align-items: end;
   }
   .info-col {
-    display: flex;
-    align-items: baseline;
-    gap: 3px;
+    display: grid;
+    gap: 2px;
     white-space: nowrap;
   }
   .info-col-label {
-    font-size: 8px;
-    font-weight: 800;
+    font-size: 10px;
+    font-weight: 600;
     line-height: 1;
   }
   .info-col-value {
     white-space: nowrap;
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 800;
     line-height: 1.1;
   }
   .info-col-entry .info-col-value {
-    font-size: 8px;
+    font-size: 10px;
     letter-spacing: 0;
   }
   .fee-panel {
-    border-width: 3px;
-    border-radius: 18px;
-    gap: 4px;
-    padding: 8px 5px;
-    min-height: 96px;
+    border-width: 2px;
+    border-radius: 16px;
+    gap: 6px;
+    padding: 8px 4px;
+    min-height: 102px;
   }
   .fee-label {
-    font-size: 11px;
+    font-size: 12px;
   }
   .fee-value {
-    font-size: 24px;
+    font-size: 26px;
   }
   .actions-row {
     gap: 5px;
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .result-card .small-btn {
-    min-height: 36px;
+    min-height: 34px;
     font-size: 10px;
-    padding: 5px 2px;
+    padding: 4px 2px;
     border-width: 2px;
   }
   .mark-option-sheet {
@@ -711,21 +712,21 @@ textarea { resize: vertical; }
     gap: 8px;
   }
   .result-layout {
-    grid-template-columns: 40px minmax(0, 1fr) 72px;
+    grid-template-columns: 38px minmax(0, 1fr) 66px;
     gap: 5px;
     align-items: start;
   }
   .status-pill {
-    min-width: 40px;
-    min-height: 44px;
+    min-width: 38px;
+    min-height: 36px;
     padding: 0 4px;
     border-width: 2px;
-    border-radius: 12px;
-    font-size: 11px;
-    line-height: 1.02;
+    border-radius: 10px;
+    font-size: 10px;
+    line-height: 1;
   }
   .result-info-panel {
-    gap: 5px;
+    gap: 6px;
     padding-top: 0;
   }
   .result-topline {
@@ -733,7 +734,7 @@ textarea { resize: vertical; }
     align-items: flex-start;
   }
   .plate {
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.02;
     letter-spacing: -0.02em;
   }
@@ -742,31 +743,30 @@ textarea { resize: vertical; }
     font-size: 10px;
   }
   .result-info-row {
-    grid-template-columns: minmax(42px, 0.86fr) minmax(104px, 1.56fr) minmax(42px, 0.86fr);
-    gap: 4px;
-    align-items: center;
+    grid-template-columns: minmax(40px, 0.92fr) minmax(92px, 1.4fr) minmax(40px, 0.78fr);
+    gap: 6px;
+    align-items: end;
   }
   .info-col {
-    display: flex;
-    align-items: baseline;
+    display: grid;
     gap: 2px;
     white-space: nowrap;
   }
   .info-col-label {
-    font-size: 7px;
-    font-weight: 800;
+    font-size: 8px;
+    font-weight: 600;
     line-height: 1;
   }
   .info-col-value {
-    font-size: 7px;
+    font-size: 8px;
     font-weight: 800;
     line-height: 1.08;
   }
   .info-col-entry .info-col-value {
-    font-size: 7px;
+    font-size: 8px;
   }
   .fee-panel {
-    min-height: 88px;
+    min-height: 92px;
     padding: 7px 4px;
     gap: 4px;
     border-width: 2px;
@@ -776,7 +776,7 @@ textarea { resize: vertical; }
     font-size: 10px;
   }
   .fee-value {
-    font-size: 20px;
+    font-size: 22px;
     line-height: 0.95;
   }
   .actions-row {
