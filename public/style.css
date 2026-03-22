@@ -692,6 +692,9 @@ textarea { resize: vertical; }
     gap: 1px;
     white-space: nowrap;
   }
+  .info-col-hours {
+    transform: translateX(-8px);
+  }
   .info-col-label {
     font-size: 8px;
     font-weight: 600;
@@ -826,6 +829,9 @@ textarea { resize: vertical; }
     display: grid;
     gap: 1px;
     white-space: nowrap;
+  }
+  .info-col-hours {
+    transform: translateX(-10px);
   }
   .info-col-label {
     font-size: 7px;
