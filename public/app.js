@@ -403,7 +403,8 @@ async function boot() {
   startAutoRefresh();
   if ('serviceWorker' in navigator) {
     try {
-      await navigator.serviceWorker.register('./sw.js');
+      const registration = await navigator.serviceWorker.register('./sw.js');
+      registration.update();
     } catch (error) {
       console.error('service worker register failed', error);
     }
