@@ -113,7 +113,6 @@ function updateStats() {
   el.activeCount.textContent = String(active);
   el.processedCount.textContent = String(processed);
   el.totalFee.textContent = String(totalFee);
-  document.body.classList.toggle('has-processed', processed > 0);
 }
 
 function extractPlates(text = '') {
@@ -160,7 +159,7 @@ function renderCards() {
       </div>
     ` : '';
     return `
-      <article class="result-card">
+      <article class="result-card ${item.isProcessed ? 'result-card-processed' : ''}">
         <div class="result-main-row">
           <div class="result-info-pane">
             <div class="result-top">
