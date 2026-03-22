@@ -113,6 +113,7 @@ function updateStats() {
   el.activeCount.textContent = String(active);
   el.processedCount.textContent = String(processed);
   el.totalFee.textContent = String(totalFee);
+  document.body.classList.toggle('has-processed', processed > 0);
 }
 
 function extractPlates(text = '') {
