@@ -146,16 +146,16 @@ textarea { resize: vertical; }
 .panel-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 12px;
+  gap: 0;
   margin-bottom: 14px;
 }
 .panel-grid.panel-grid-idle {
-  gap: 0;
   margin-bottom: 0;
 }
 .query-panel-card {
   --panel-pad-x: 16px;
   --panel-pad-y: 16px;
+  --panel-stack-gap: 12px;
   overflow: hidden;
   padding-left: var(--panel-pad-x);
   padding-right: var(--panel-pad-x);
@@ -187,6 +187,7 @@ textarea { resize: vertical; }
   transform: translateY(0) scale(1);
   padding-top: var(--panel-pad-y);
   padding-bottom: var(--panel-pad-y);
+  margin-top: var(--panel-stack-gap);
   pointer-events: auto;
 }
 #batchPanel.query-panel-card.panel-open {
@@ -790,6 +791,7 @@ body.results-only-view .table-panel {
   .query-panel-card {
     --panel-pad-x: 12px;
     --panel-pad-y: 12px;
+    --panel-stack-gap: 10px;
   }
   .query-panel-card.panel-open {
     max-height: 360px;
