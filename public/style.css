@@ -629,3 +629,108 @@ textarea { resize: vertical; }
     border-width: 2px;
   }
 }
+
+@media (max-width: 440px) and (min-height: 900px) {
+  .app-shell {
+    padding: max(14px, env(safe-area-inset-top)) 12px calc(22px + env(safe-area-inset-bottom));
+  }
+  .table-panel {
+    padding: 14px 12px;
+  }
+  .result-list {
+    gap: 10px;
+  }
+  .result-card {
+    padding: 14px 12px 12px;
+    border-radius: 20px;
+  }
+  .result-layout {
+    grid-template-columns: 78px minmax(0, 1fr) 104px;
+    gap: 10px;
+    align-items: start;
+  }
+  .status-pill {
+    min-width: 78px;
+    min-height: 86px;
+    padding: 0 8px;
+    border-width: 3px;
+    border-radius: 22px;
+    font-size: 17px;
+    line-height: 1.12;
+  }
+  .result-info-panel {
+    gap: 10px;
+    padding-top: 0;
+  }
+  .result-topline {
+    gap: 6px;
+    align-items: flex-start;
+  }
+  .plate {
+    font-size: 24px;
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+  }
+  .inline-flag {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+  .result-info-row {
+    grid-template-columns: minmax(44px, 0.54fr) minmax(106px, 1.22fr) minmax(44px, 0.48fr);
+    gap: 10px;
+    align-items: start;
+  }
+  .info-col {
+    gap: 4px;
+  }
+  .info-col-label {
+    font-size: 11px;
+    line-height: 1;
+  }
+  .info-col-value {
+    font-size: 11px;
+    line-height: 1.12;
+  }
+  .info-col-entry .info-col-value {
+    font-size: 10px;
+  }
+  .fee-panel {
+    min-height: 156px;
+    padding: 16px 8px;
+    gap: 8px;
+    border-width: 3px;
+    border-radius: 24px;
+  }
+  .fee-label {
+    font-size: 14px;
+  }
+  .fee-value {
+    font-size: 38px;
+    line-height: 0.95;
+  }
+  .actions-row {
+    gap: 6px;
+  }
+  .result-card .small-btn {
+    min-height: 50px;
+    padding: 8px 4px;
+    border-width: 2px;
+    border-radius: 999px;
+    font-size: 12px;
+    line-height: 1.05;
+  }
+  .mark-option-sheet {
+    padding: 7px;
+    border-radius: 16px;
+  }
+  .mark-option-row {
+    gap: 5px;
+  }
+  .mark-option-btn,
+  .mark-clear-btn {
+    min-height: 36px;
+    padding: 5px 4px;
+    border-width: 2px;
+    font-size: 12px;
+  }
+}
