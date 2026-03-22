@@ -183,6 +183,12 @@ function renderCards() {
     const markControl = isSuccess && markExpanded ? `
       <div class="mark-picker-frame">
         <div class="mark-picker-scroll" data-role="mark-picker" data-index="${index}" aria-label="滑动选择处理时间">
+          <button
+            class="mark-picker-option ${!item.marked ? 'mark-picker-option-active' : ''}"
+            data-action="clear-mark"
+            data-index="${index}"
+            data-value=""
+          >取消标记</button>
           ${MARK_OPTIONS.map(option => `
             <button
               class="mark-picker-option ${item.markTime === option && item.marked ? 'mark-picker-option-active' : ''}"
@@ -242,12 +248,13 @@ function syncOpenMarkPicker() {
   const current = state.carList[state.expandedMarkIndex];
   const picker = el.cardList.querySelector(`.mark-picker-scroll[data-index="${state.expandedMarkIndex}"]`);
   if (!current || !picker) return;
-  const targetValue = current.marked ? current.markTime : MARK_OPTIONS[0];
+  const targetValue = current.marked ? current.markTime : '';
   const target = picker.querySelector(`[data-value="${targetValue}"]`) || picker.querySelector(`[data-value="${MARK_OPTIONS[0]}"]`);
   if (!target) return;
 
   requestAnimationFrame(() => {
     picker.dataset.ready = 'false';
+    picker.dataset.interacting = 'false';
     const offset = target.offsetTop - (picker.clientHeight - target.offsetHeight) / 2;
     picker.scrollTop = Math.max(0, offset);
     requestAnimationFrame(() => {
@@ -546,14 +553,36 @@ function bindEvents() {
     if (action === 'delete') deleteItem(index);
   });
 
-  el.cardList.addEventListener('scroll', event => {
+  el.cardList.addEventListener('pointerdown', event => {
+    const picker = event.target.closest('.mark-picker-scroll');
+    if (!picker) return;
+    clearTimeout(state.markSelectTimer);
+    picker.dataset.interacting = 'true';
+  });
+
+  const queuePickerSettle = event => {
     const picker = event.target.closest('.mark-picker-scroll');
     if (!picker) return;
     if (picker.dataset.ready !== 'true') return;
     const index = Number(picker.dataset.index);
     if (!Number.isInteger(index)) return;
+    picker.dataset.interacting = 'false';
     clearTimeout(state.markSelectTimer);
-    state.markSelectTimer = setTimeout(() => settleMarkPicker(index), 140);
+    state.markSelectTimer = setTimeout(() => settleMarkPicker(index), 160);
+  };
+
+  el.cardList.addEventListener('pointerup', queuePickerSettle, true);
+  el.cardList.addEventListener('pointercancel', queuePickerSettle, true);
+
+  el.cardList.addEventListener('scroll', event => {
+    const picker = event.target.closest('.mark-picker-scroll');
+    if (!picker) return;
+    if (picker.dataset.ready !== 'true') return;
+    if (picker.dataset.interacting === 'true') return;
+    const index = Number(picker.dataset.index);
+    if (!Number.isInteger(index)) return;
+    clearTimeout(state.markSelectTimer);
+    state.markSelectTimer = setTimeout(() => settleMarkPicker(index), 160);
   }, true);
 
   window.addEventListener('beforeunload', stopAutoRefresh);
