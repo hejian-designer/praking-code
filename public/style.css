@@ -422,56 +422,67 @@ textarea { resize: vertical; }
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
+  align-items: stretch;
 }
-.mark-option-sheet {
-  padding: 10px;
-  border-radius: 28px;
-  background: linear-gradient(180deg, rgba(221, 246, 255, 0.98), rgba(239, 250, 255, 0.98));
-  border: 3px solid rgba(47, 160, 204, 0.28);
-  display: grid;
-  gap: 10px;
+.actions-row > * {
+  min-width: 0;
 }
-.mark-option-title {
-  color: #168cbe;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1;
+.mark-picker-frame {
+  --picker-height: 74px;
+  --picker-option-height: 42px;
+  position: relative;
+  min-height: var(--picker-height);
+  border-radius: 999px;
+  border: 4px solid #2198c6;
+  background: linear-gradient(180deg, #87d5f1, #78d0ef);
+  box-shadow: 0 8px 18px rgba(148, 163, 184, 0.2);
+  overflow: hidden;
 }
-.mark-option-row {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-  max-height: 132px;
+.mark-picker-scroll {
+  height: var(--picker-height);
   overflow-y: auto;
-  padding-right: 4px;
-  scroll-snap-type: y proximity;
+  padding: calc((var(--picker-height) - var(--picker-option-height)) / 2) 6px;
+  scroll-snap-type: y mandatory;
   overscroll-behavior: contain;
   -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
 }
-.mark-option-btn,
-.mark-clear-btn {
-  min-height: 56px;
-  padding: 8px 10px;
-  border-radius: 18px;
+.mark-picker-scroll::-webkit-scrollbar {
+  display: none;
+}
+.mark-picker-option {
+  min-height: var(--picker-option-height);
+  height: var(--picker-option-height);
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 14px;
+  background: transparent;
+  color: #168cbe;
+  box-shadow: none;
   font-size: 20px;
-  font-weight: 700;
+  font-weight: 800;
+  scroll-snap-align: center;
 }
-.mark-option-btn {
-  background: linear-gradient(180deg, #9fdef5, #7ad0ef);
-  color: #168cbe;
-  border: 3px solid #2198c6;
-  width: 100%;
-  scroll-snap-align: start;
+.mark-picker-option:hover,
+.mark-picker-option:active {
+  box-shadow: none;
+  transform: none;
 }
-.mark-option-active {
-  background: linear-gradient(180deg, #2198c6, #1388b7);
+.mark-picker-option-active {
   color: #ffffff;
-  border-color: #1388b7;
 }
-.mark-clear-btn {
-  background: linear-gradient(180deg, #cceefd, #b6e8fb);
-  color: #168cbe;
-  border: 3px solid rgba(33, 152, 198, 0.35);
+.mark-picker-focus {
+  position: absolute;
+  left: 6px;
+  right: 6px;
+  top: 50%;
+  height: var(--picker-option-height);
+  transform: translateY(-50%);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.42);
+  background: linear-gradient(180deg, rgba(33, 152, 198, 0.22), rgba(19, 136, 183, 0.2));
+  pointer-events: none;
 }
 .primary-btn:hover { background: var(--btn-strong-bg); }
 .secondary-btn,
@@ -618,25 +629,24 @@ body.results-only-view .table-panel {
     border-width: 3px;
     font-size: 17px;
   }
-  .mark-option-sheet {
-    padding: 8px;
-    border-radius: 20px;
-    gap: 8px;
+  .mark-picker-frame {
+    --picker-height: 56px;
+    --picker-option-height: 34px;
+    border-width: 3px;
   }
-  .mark-option-title {
-    font-size: 13px;
+  .mark-picker-scroll {
+    padding-left: 4px;
+    padding-right: 4px;
   }
-  .mark-option-row {
-    gap: 6px;
-    max-height: 116px;
-  }
-  .mark-option-btn,
-  .mark-clear-btn {
-    min-height: 44px;
-    padding: 6px 8px;
-    border-width: 2px;
+  .mark-picker-option {
+    padding: 0 8px;
     font-size: 15px;
-    border-radius: 14px;
+    border-radius: 12px;
+  }
+  .mark-picker-focus {
+    left: 4px;
+    right: 4px;
+    border-radius: 12px;
   }
 }
 
@@ -666,9 +676,6 @@ body.results-only-view .table-panel {
   }
   .actions-row {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-  .mark-option-row {
-    grid-template-columns: 1fr;
   }
   .page-header {
     gap: 10px;
@@ -850,26 +857,25 @@ body.results-only-view .table-panel {
     border-width: 1.5px;
     border-radius: 12px;
   }
-  .mark-option-sheet {
-    border-radius: 10px;
-    padding: 4px;
-    gap: 5px;
+  .mark-picker-frame {
+    --picker-height: 24px;
+    --picker-option-height: 18px;
+    border-width: 1.5px;
   }
-  .mark-option-title {
-    font-size: 10px;
-  }
-  .mark-option-row {
-    gap: 4px;
-    max-height: 92px;
+  .mark-picker-scroll {
+    padding-left: 2px;
     padding-right: 2px;
   }
-  .mark-option-btn,
-  .mark-clear-btn {
-    min-height: 24px;
+  .mark-picker-option {
+    padding: 0 2px;
     font-size: 10px;
-    padding: 2px;
-    border-width: 1.5px;
-    border-radius: 10px;
+    border-radius: 8px;
+  }
+  .mark-picker-focus {
+    left: 2px;
+    right: 2px;
+    border-width: 1px;
+    border-radius: 8px;
   }
 }
 
@@ -1012,25 +1018,24 @@ body.results-only-view .table-panel {
     font-size: 8px;
     line-height: 1.05;
   }
-  .mark-option-sheet {
-    padding: 4px;
-    border-radius: 8px;
-    gap: 4px;
-  }
-  .mark-option-title {
-    font-size: 8px;
-  }
-  .mark-option-row {
-    gap: 3px;
-    max-height: 78px;
-    padding-right: 2px;
-  }
-  .mark-option-btn,
-  .mark-clear-btn {
-    min-height: 20px;
-    padding: 2px 1px;
+  .mark-picker-frame {
+    --picker-height: 20px;
+    --picker-option-height: 14px;
     border-width: 1px;
+  }
+  .mark-picker-scroll {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+  .mark-picker-option {
+    padding: 0 1px;
     font-size: 8px;
-    border-radius: 8px;
+    border-radius: 6px;
+  }
+  .mark-picker-focus {
+    left: 1px;
+    right: 1px;
+    border-width: 1px;
+    border-radius: 6px;
   }
 }

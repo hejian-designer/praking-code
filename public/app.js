@@ -8,6 +8,7 @@ const state = {
   loading: false,
   alignTimer: null,
   refreshTimer: null,
+  markSelectTimer: null,
   deferredInstallPrompt: null,
   activeTool: 'single',
   queryPanelOpen: false,
@@ -179,22 +180,29 @@ function renderCards() {
     const ownerDisplay = ownerText === '-' ? '-' : ownerText.toUpperCase();
     const entryText = formatEntryDisplay(item.entry);
     const markExpanded = state.expandedMarkIndex === index;
-    const markOptions = isSuccess && markExpanded ? `
-      <div class="mark-option-sheet">
-        <div class="mark-option-title">滑动选择处理时间</div>
-        <div class="mark-option-row">
-        ${MARK_OPTIONS.map(option => `
+    const markControl = isSuccess && markExpanded ? `
+      <div class="mark-picker-frame">
+        <div class="mark-picker-scroll" data-role="mark-picker" data-index="${index}" aria-label="滑动选择处理时间">
           <button
-            class="mark-option-btn ${item.markTime === option && item.marked ? 'mark-option-active' : ''}"
-            data-action="select-mark"
+            class="mark-picker-option ${!item.marked ? 'mark-picker-option-active' : ''}"
+            data-action="clear-mark"
             data-index="${index}"
-            data-value="${option}"
-          >${option}h</button>
-        `).join('')}
+            data-value=""
+          >取消标记</button>
+          ${MARK_OPTIONS.map(option => `
+            <button
+              class="mark-picker-option ${item.markTime === option && item.marked ? 'mark-picker-option-active' : ''}"
+              data-action="select-mark"
+              data-index="${index}"
+              data-value="${option}"
+            >${option}h</button>
+          `).join('')}
         </div>
-        <button class="mark-clear-btn" data-action="clear-mark" data-index="${index}">取消</button>
+        <div class="mark-picker-focus" aria-hidden="true"></div>
       </div>
-    ` : '';
+    ` : `
+      <button class="small-btn mark-btn ${markExpanded ? 'mark-btn-active' : ''}" data-action="mark" data-index="${index}">${markText}</button>
+    `;
     return `
       <article class="result-card ${item.isProcessed ? 'result-card-processed' : ''}">
         <div class="result-layout">
@@ -225,13 +233,33 @@ function renderCards() {
           </div>
         </div>
         <div class="actions-row">
-          <button class="small-btn mark-btn ${markExpanded ? 'mark-btn-active' : ''}" data-action="mark" data-index="${index}">${markText}</button>
+          ${markControl}
           <button class="small-btn done-btn" data-action="done" data-index="${index}">${item.isProcessed ? '取消已处理' : '标记已处理'}</button>
           <button class="small-btn danger-btn" data-action="delete" data-index="${index}">删除</button>
         </div>
-        ${markOptions}
       </article>`;
   }).join('');
+
+  syncOpenMarkPicker();
+}
+
+function syncOpenMarkPicker() {
+  if (state.expandedMarkIndex === null) return;
+  const current = state.carList[state.expandedMarkIndex];
+  const picker = el.cardList.querySelector(`.mark-picker-scroll[data-index="${state.expandedMarkIndex}"]`);
+  if (!current || !picker) return;
+  const targetValue = current.marked ? current.markTime : '';
+  const target = picker.querySelector(`[data-value="${targetValue}"]`) || picker.querySelector('[data-value=""]');
+  if (!target) return;
+
+  requestAnimationFrame(() => {
+    picker.dataset.ready = 'false';
+    const offset = target.offsetTop - (picker.clientHeight - target.offsetHeight) / 2;
+    picker.scrollTop = Math.max(0, offset);
+    requestAnimationFrame(() => {
+      picker.dataset.ready = 'true';
+    });
+  });
 }
 
 function render() {
@@ -372,13 +400,46 @@ function promptMark(index) {
     showToast('仅在场车辆可标记处理时间');
     return;
   }
+  clearTimeout(state.markSelectTimer);
   state.expandedMarkIndex = state.expandedMarkIndex === index ? null : index;
   render();
+}
+
+function settleMarkPicker(index) {
+  const picker = el.cardList.querySelector(`.mark-picker-scroll[data-index="${index}"]`);
+  if (!picker) return;
+
+  const options = [...picker.querySelectorAll('.mark-picker-option')];
+  if (options.length === 0) return;
+
+  const center = picker.scrollTop + picker.clientHeight / 2;
+  let nearest = options[0];
+  let nearestDistance = Number.POSITIVE_INFINITY;
+
+  for (const option of options) {
+    const optionCenter = option.offsetTop + option.offsetHeight / 2;
+    const distance = Math.abs(optionCenter - center);
+    if (distance < nearestDistance) {
+      nearest = option;
+      nearestDistance = distance;
+    }
+  }
+
+  const targetOffset = nearest.offsetTop - (picker.clientHeight - nearest.offsetHeight) / 2;
+  picker.scrollTo({ top: Math.max(0, targetOffset), behavior: 'smooth' });
+
+  const value = nearest.dataset.value || '';
+  if (value) {
+    selectMark(index, value);
+  } else {
+    clearMark(index);
+  }
 }
 
 function selectMark(index, value) {
   const current = state.carList[index];
   if (!current) return;
+  clearTimeout(state.markSelectTimer);
   current.marked = true;
   current.markTime = value;
   state.carList[index] = current;
@@ -390,6 +451,7 @@ function selectMark(index, value) {
 function clearMark(index) {
   const current = state.carList[index];
   if (!current) return;
+  clearTimeout(state.markSelectTimer);
   current.marked = false;
   current.markTime = null;
   state.carList[index] = current;
@@ -401,6 +463,7 @@ function clearMark(index) {
 function toggleProcessed(index) {
   const current = state.carList[index];
   if (!current) return;
+  clearTimeout(state.markSelectTimer);
   current.isProcessed = !current.isProcessed;
   state.carList[index] = current;
   state.expandedMarkIndex = null;
@@ -409,6 +472,7 @@ function toggleProcessed(index) {
 }
 
 function deleteItem(index) {
+  clearTimeout(state.markSelectTimer);
   state.carList.splice(index, 1);
   if (state.expandedMarkIndex === index) {
     state.expandedMarkIndex = null;
@@ -487,6 +551,16 @@ function bindEvents() {
     if (action === 'done') toggleProcessed(index);
     if (action === 'delete') deleteItem(index);
   });
+
+  el.cardList.addEventListener('scroll', event => {
+    const picker = event.target.closest('.mark-picker-scroll');
+    if (!picker) return;
+    if (picker.dataset.ready !== 'true') return;
+    const index = Number(picker.dataset.index);
+    if (!Number.isInteger(index)) return;
+    clearTimeout(state.markSelectTimer);
+    state.markSelectTimer = setTimeout(() => settleMarkPicker(index), 140);
+  }, true);
 
   window.addEventListener('beforeunload', stopAutoRefresh);
   window.addEventListener('beforeinstallprompt', event => {
