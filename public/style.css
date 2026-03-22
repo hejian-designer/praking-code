@@ -190,9 +190,14 @@ textarea { resize: vertical; }
 }
 .result-main-row {
   display: grid;
-  grid-template-columns: minmax(128px, 160px) minmax(0, 1fr);
-  gap: 10px;
+  grid-template-columns: minmax(0, 7fr) minmax(92px, 2fr);
+  gap: 8px;
   align-items: center;
+}
+.result-info-pane {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
 }
 .result-top {
   display: flex;
@@ -235,26 +240,24 @@ textarea { resize: vertical; }
   background: rgba(34, 197, 94, 0.14);
   color: #166534;
 }
-.summary-grid {
+.info-strip {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 6px;
 }
-.summary-item {
+.info-strip-item {
   min-width: 0;
-  background: rgba(248, 250, 252, 0.92);
+  display: grid;
+  gap: 2px;
+  background: rgba(248, 250, 252, 0.82);
   border-radius: 12px;
   padding: 7px 9px;
 }
-.summary-item-wide {
-  grid-column: span 2;
-}
-.summary-label {
+.info-strip-label {
   color: var(--muted);
   font-size: 11px;
-  margin-bottom: 2px;
 }
-.summary-value {
+.info-strip-value {
   font-weight: 600;
   font-size: 13px;
   line-height: 1.2;
@@ -262,7 +265,28 @@ textarea { resize: vertical; }
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.summary-value-strong {
+.metrics-pane {
+  display: grid;
+  gap: 6px;
+}
+.metric-block {
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(37, 99, 235, 0.94));
+  color: #fff;
+  border-radius: 14px;
+  padding: 8px 9px;
+  min-width: 0;
+}
+.metric-label {
+  font-size: 11px;
+  opacity: 0.78;
+  margin-bottom: 2px;
+}
+.metric-value {
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 1.1;
+}
+.metric-value-strong {
   font-family: "Sora", sans-serif;
   font-size: 14px;
 }
@@ -379,13 +403,13 @@ textarea { resize: vertical; }
     grid-template-columns: 1fr;
     gap: 8px;
   }
-  .summary-grid {
+  .info-strip {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  .summary-item-wide {
-    grid-column: span 1;
-  }
-  .summary-value {
+  .info-strip-value {
     white-space: normal;
+  }
+  .metrics-pane {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

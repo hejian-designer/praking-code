@@ -157,32 +157,36 @@ function renderCards() {
     return `
       <article class="result-card">
         <div class="result-main-row">
-          <div class="result-top">
-            <div class="plate-block">
-              <div class="plate">${item.plate}</div>
-              <div class="plate-subline">
-                <span class="badge ${badgeClass}">${badgeText}</span>
-                ${item.isProcessed ? '<span class="inline-flag inline-flag-success">已处理</span>' : ''}
-                ${item.marked && !item.isProcessed ? `<span class="inline-flag">标记 ${item.markTime}h</span>` : ''}
+          <div class="result-info-pane">
+            <div class="result-top">
+              <div class="plate-block">
+                <div class="plate">${item.plate}</div>
+                <div class="plate-subline">
+                  <span class="badge ${badgeClass}">${badgeText}</span>
+                  ${item.isProcessed ? '<span class="inline-flag inline-flag-success">已处理</span>' : ''}
+                  ${item.marked && !item.isProcessed ? `<span class="inline-flag">标记 ${item.markTime}h</span>` : ''}
+                </div>
+              </div>
+            </div>
+            <div class="info-strip">
+              <div class="info-strip-item">
+                <span class="info-strip-label">入场</span>
+                <span class="info-strip-value">${entryText}</span>
+              </div>
+              <div class="info-strip-item">
+                <span class="info-strip-label">车主</span>
+                <span class="info-strip-value">${ownerText}</span>
               </div>
             </div>
           </div>
-          <div class="summary-grid">
-            <div class="summary-item">
-              <div class="summary-label">欠费</div>
-              <div class="summary-value summary-value-strong">${item.needPay || 0}</div>
+          <div class="metrics-pane">
+            <div class="metric-block">
+              <div class="metric-label">欠费</div>
+              <div class="metric-value metric-value-strong">${item.needPay || 0}</div>
             </div>
-            <div class="summary-item">
-              <div class="summary-label">今日</div>
-              <div class="summary-value">${item.todayHoursFixed || '0.0'}h</div>
-            </div>
-            <div class="summary-item summary-item-wide">
-              <div class="summary-label">入场</div>
-              <div class="summary-value">${entryText}</div>
-            </div>
-            <div class="summary-item summary-item-wide">
-              <div class="summary-label">车主</div>
-              <div class="summary-value">${ownerText}</div>
+            <div class="metric-block">
+              <div class="metric-label">今日</div>
+              <div class="metric-value">${item.todayHoursFixed || '0.0'}h</div>
             </div>
           </div>
         </div>
