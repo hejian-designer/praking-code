@@ -161,37 +161,35 @@ function renderCards() {
     return `
       <article class="result-card ${item.isProcessed ? 'result-card-processed' : ''}">
         <div class="result-main-row">
-          <div class="result-info-pane">
-            <div class="result-top">
-              <div class="plate-block">
-                <div class="plate">${item.plate}</div>
-                <div class="plate-subline">
-                  <span class="badge ${badgeClass}">${badgeText}</span>
-                  ${item.isProcessed ? '<span class="inline-flag inline-flag-success">已处理</span>' : ''}
-                  ${item.marked && !item.isProcessed ? `<span class="inline-flag">标记 ${item.markTime}h</span>` : ''}
-                </div>
-              </div>
+          <div class="status-box ${badgeClass}">
+            <span class="status-box-text">${badgeText}</span>
+          </div>
+          <div class="result-content">
+            <div class="result-topline">
+              <div class="plate">${item.plate}</div>
+              ${item.marked && !item.isProcessed ? `<span class="inline-flag">标记 ${item.markTime}h</span>` : ''}
+              ${item.isProcessed ? '<span class="inline-flag inline-flag-success">已处理</span>' : ''}
             </div>
-            <div class="info-strip">
-              <div class="info-strip-item">
-                <span class="info-strip-label">入场</span>
-                <span class="info-strip-value">${entryText}</span>
+            <div class="result-info-row">
+              <div class="info-col">
+                <div class="info-col-label">车主</div>
+                <div class="info-col-value">${ownerText}</div>
               </div>
-              <div class="info-strip-item">
-                <span class="info-strip-label">车主</span>
-                <span class="info-strip-value">${ownerText}</span>
+              <div class="info-divider"></div>
+              <div class="info-col">
+                <div class="info-col-label">入场</div>
+                <div class="info-col-value">${entryText}</div>
+              </div>
+              <div class="info-divider"></div>
+              <div class="info-col">
+                <div class="info-col-label">今日已停</div>
+                <div class="info-col-value">${item.todayHoursFixed || '0.0'}h</div>
               </div>
             </div>
           </div>
-          <div class="metrics-pane">
-            <div class="metric-block">
-              <div class="metric-label">欠费</div>
-              <div class="metric-value metric-value-strong">${item.needPay || 0}</div>
-            </div>
-            <div class="metric-block">
-              <div class="metric-label">今日</div>
-              <div class="metric-value">${item.todayHoursFixed || '0.0'}h</div>
-            </div>
+          <div class="fee-box">
+            <div class="fee-label">欠费</div>
+            <div class="fee-value">¥${item.needPay || 0}</div>
           </div>
         </div>
         <div class="actions-row">

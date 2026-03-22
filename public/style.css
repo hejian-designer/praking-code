@@ -200,44 +200,48 @@ textarea { resize: vertical; }
 }
 .result-main-row {
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(92px, 2fr);
-  gap: 6px;
+  grid-template-columns: 66px minmax(0, 1fr) 112px;
+  gap: 10px;
   align-items: center;
 }
-.result-info-pane {
-  min-width: 0;
-  display: grid;
-  gap: 5px;
-}
-.result-top {
+.status-box {
+  min-height: 102px;
+  border-radius: 16px;
   display: flex;
-  gap: 6px;
   align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: 2px solid transparent;
+  text-align: center;
 }
-.plate-block {
-  display: grid;
-  gap: 4px;
+.status-box.badge-success {
+  background: linear-gradient(180deg, rgba(220, 252, 231, 0.86), rgba(240, 253, 244, 0.98));
+}
+.status-box.badge-muted {
+  background: linear-gradient(180deg, rgba(241, 245, 249, 0.82), rgba(248, 250, 252, 0.98));
+}
+.status-box-text {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.15;
 }
 .plate {
   font-family: "Sora", sans-serif;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
-  line-height: 1.05;
+  line-height: 1.1;
 }
-.plate-subline {
+.result-content {
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+}
+.result-topline {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
+  gap: 6px;
   align-items: center;
 }
-.badge {
-  border-radius: 999px;
-  padding: 3px 7px;
-  font-size: 11px;
-  font-weight: 600;
-}
-.badge-success { background: #dcfce7; color: #166534; }
-.badge-muted { background: #eef2f7; color: #475569; }
 .inline-flag {
   border-radius: 999px;
   padding: 3px 7px;
@@ -250,55 +254,58 @@ textarea { resize: vertical; }
   background: rgba(34, 197, 94, 0.14);
   color: #166534;
 }
-.info-strip {
+.result-info-row {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 5px;
+  grid-template-columns: minmax(64px, auto) 1px minmax(122px, 1fr) 1px minmax(72px, auto);
+  gap: 10px;
+  align-items: center;
 }
-.info-strip-item {
+.info-col {
   min-width: 0;
   display: grid;
-  gap: 2px;
-  background: rgba(248, 250, 252, 0.82);
-  border-radius: 12px;
-  padding: 5px 7px;
+  gap: 3px;
 }
-.info-strip-label {
+.info-col-label {
   color: var(--muted);
-  font-size: 10px;
-}
-.info-strip-value {
-  font-weight: 600;
   font-size: 12px;
+}
+.info-col-value {
+  font-weight: 600;
+  font-size: 15px;
   line-height: 1.15;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.metrics-pane {
-  display: grid;
-  gap: 5px;
+.info-divider {
+  width: 1px;
+  height: 42px;
+  background: rgba(96, 112, 137, 0.28);
 }
-.metric-block {
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.98), rgba(37, 99, 235, 0.94));
-  color: #fff;
-  border-radius: 14px;
-  padding: 6px 7px;
-  min-width: 0;
+.fee-box {
+  min-height: 102px;
+  border-radius: 18px;
+  border: 1px solid rgba(191, 219, 254, 0.9);
+  background: linear-gradient(180deg, rgba(241, 245, 255, 0.98), rgba(232, 239, 255, 0.98));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 8px;
+  text-align: center;
 }
-.metric-label {
-  font-size: 10px;
-  opacity: 0.78;
-  margin-bottom: 1px;
-}
-.metric-value {
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 1.1;
-}
-.metric-value-strong {
-  font-family: "Sora", sans-serif;
+.fee-label {
+  color: #64748b;
   font-size: 13px;
+  font-weight: 700;
+}
+.fee-value {
+  font-family: "Sora", sans-serif;
+  font-size: 18px;
+  line-height: 1;
+  color: #dc2626;
+  font-weight: 800;
 }
 .actions-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 5px; }
 .mark-option-sheet {
@@ -425,32 +432,50 @@ textarea { resize: vertical; }
     display: none;
   }
   .result-main-row {
-    grid-template-columns: minmax(0, 7fr) minmax(88px, 2fr);
+    grid-template-columns: 58px minmax(0, 1fr) 96px;
     gap: 6px;
   }
   .result-card {
     padding: 7px 8px;
   }
   .plate {
-    font-size: 15px;
+    font-size: 16px;
   }
-  .info-strip {
+  .status-box {
+    min-height: 92px;
+    border-radius: 14px;
+  }
+  .status-box-text {
+    font-size: 16px;
+  }
+  .result-content {
+    gap: 8px;
+  }
+  .result-info-row {
     grid-template-columns: 1fr;
     gap: 5px;
   }
-  .info-strip-value {
+  .info-col {
+    gap: 2px;
+  }
+  .info-col-label {
+    font-size: 11px;
+  }
+  .info-col-value {
     white-space: normal;
     font-size: 12px;
   }
-  .metrics-pane {
-    grid-template-columns: 1fr;
-    gap: 5px;
+  .info-divider {
+    display: none;
   }
-  .metric-block {
-    padding: 6px 7px;
+  .fee-box {
+    min-height: 92px;
+    border-radius: 16px;
   }
-  .metric-value,
-  .metric-value-strong {
+  .fee-label {
     font-size: 12px;
+  }
+  .fee-value {
+    font-size: 16px;
   }
 }
