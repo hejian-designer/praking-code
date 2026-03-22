@@ -599,7 +599,7 @@ textarea { resize: vertical; }
     gap: 8px;
   }
   .result-layout {
-    grid-template-columns: 62px minmax(0, 1fr) 78px;
+    grid-template-columns: 48px minmax(0, 1fr) 78px;
     gap: 5px;
     align-items: start;
   }
@@ -608,13 +608,13 @@ textarea { resize: vertical; }
     line-height: 1.05;
   }
   .status-pill {
-    min-width: 62px;
-    min-height: 68px;
+    min-width: 48px;
+    min-height: 52px;
     border-width: 3px;
-    border-radius: 18px;
-    padding: 0 4px;
-    font-size: 15px;
-    line-height: 1.15;
+    border-radius: 14px;
+    padding: 0 2px;
+    font-size: 12px;
+    line-height: 1.05;
   }
   .result-info-panel {
     gap: 6px;
@@ -624,20 +624,25 @@ textarea { resize: vertical; }
     gap: 4px;
   }
   .result-info-row {
-    grid-template-columns: minmax(34px, 0.52fr) minmax(90px, 1.55fr) minmax(30px, 0.36fr);
+    grid-template-columns: minmax(52px, 0.9fr) minmax(118px, 1.5fr) minmax(52px, 0.9fr);
     gap: 5px;
-    align-items: start;
+    align-items: center;
   }
   .info-col {
+    display: flex;
+    align-items: baseline;
     gap: 3px;
+    white-space: nowrap;
   }
   .info-col-label {
-    font-size: 9px;
+    font-size: 8px;
+    font-weight: 800;
     line-height: 1;
   }
   .info-col-value {
     white-space: nowrap;
-    font-size: 9px;
+    font-size: 8px;
+    font-weight: 800;
     line-height: 1.1;
   }
   .info-col-entry .info-col-value {
@@ -706,18 +711,18 @@ textarea { resize: vertical; }
     gap: 8px;
   }
   .result-layout {
-    grid-template-columns: 56px minmax(0, 1fr) 72px;
+    grid-template-columns: 40px minmax(0, 1fr) 72px;
     gap: 5px;
     align-items: start;
   }
   .status-pill {
-    min-width: 56px;
-    min-height: 62px;
+    min-width: 40px;
+    min-height: 44px;
     padding: 0 4px;
     border-width: 2px;
-    border-radius: 16px;
-    font-size: 14px;
-    line-height: 1.12;
+    border-radius: 12px;
+    font-size: 11px;
+    line-height: 1.02;
   }
   .result-info-panel {
     gap: 5px;
@@ -737,19 +742,24 @@ textarea { resize: vertical; }
     font-size: 10px;
   }
   .result-info-row {
-    grid-template-columns: minmax(30px, 0.48fr) minmax(82px, 1.68fr) minmax(26px, 0.3fr);
+    grid-template-columns: minmax(42px, 0.86fr) minmax(104px, 1.56fr) minmax(42px, 0.86fr);
     gap: 4px;
-    align-items: start;
+    align-items: center;
   }
   .info-col {
-    gap: 3px;
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    white-space: nowrap;
   }
   .info-col-label {
-    font-size: 8px;
+    font-size: 7px;
+    font-weight: 800;
     line-height: 1;
   }
   .info-col-value {
-    font-size: 8px;
+    font-size: 7px;
+    font-weight: 800;
     line-height: 1.08;
   }
   .info-col-entry .info-col-value {
