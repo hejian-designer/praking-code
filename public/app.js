@@ -181,6 +181,7 @@ function renderCards() {
     const markExpanded = state.expandedMarkIndex === index;
     const markOptions = isSuccess && markExpanded ? `
       <div class="mark-option-sheet">
+        <div class="mark-option-title">滑动选择处理时间</div>
         <div class="mark-option-row">
         ${MARK_OPTIONS.map(option => `
           <button
@@ -190,8 +191,8 @@ function renderCards() {
             data-value="${option}"
           >${option}h</button>
         `).join('')}
+        </div>
         <button class="mark-clear-btn" data-action="clear-mark" data-index="${index}">取消</button>
-      </div>
       </div>
     ` : '';
     return `

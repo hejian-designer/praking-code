@@ -428,17 +428,31 @@ textarea { resize: vertical; }
   border-radius: 28px;
   background: linear-gradient(180deg, rgba(221, 246, 255, 0.98), rgba(239, 250, 255, 0.98));
   border: 3px solid rgba(47, 160, 204, 0.28);
+  display: grid;
+  gap: 10px;
+}
+.mark-option-title {
+  color: #168cbe;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
 }
 .mark-option-row {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  max-height: 132px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scroll-snap-type: y proximity;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 .mark-option-btn,
 .mark-clear-btn {
   min-height: 56px;
   padding: 8px 10px;
-  border-radius: 999px;
+  border-radius: 18px;
   font-size: 20px;
   font-weight: 700;
 }
@@ -446,6 +460,8 @@ textarea { resize: vertical; }
   background: linear-gradient(180deg, #9fdef5, #7ad0ef);
   color: #168cbe;
   border: 3px solid #2198c6;
+  width: 100%;
+  scroll-snap-align: start;
 }
 .mark-option-active {
   background: linear-gradient(180deg, #2198c6, #1388b7);
@@ -605,9 +621,14 @@ body.results-only-view .table-panel {
   .mark-option-sheet {
     padding: 8px;
     border-radius: 20px;
+    gap: 8px;
+  }
+  .mark-option-title {
+    font-size: 13px;
   }
   .mark-option-row {
-    gap: 8px;
+    gap: 6px;
+    max-height: 116px;
   }
   .mark-option-btn,
   .mark-clear-btn {
@@ -615,6 +636,7 @@ body.results-only-view .table-panel {
     padding: 6px 8px;
     border-width: 2px;
     font-size: 15px;
+    border-radius: 14px;
   }
 }
 
@@ -646,7 +668,7 @@ body.results-only-view .table-panel {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .mark-option-row {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: 1fr;
   }
   .page-header {
     gap: 10px;
@@ -831,9 +853,15 @@ body.results-only-view .table-panel {
   .mark-option-sheet {
     border-radius: 10px;
     padding: 4px;
+    gap: 5px;
+  }
+  .mark-option-title {
+    font-size: 10px;
   }
   .mark-option-row {
     gap: 4px;
+    max-height: 92px;
+    padding-right: 2px;
   }
   .mark-option-btn,
   .mark-clear-btn {
@@ -841,6 +869,7 @@ body.results-only-view .table-panel {
     font-size: 10px;
     padding: 2px;
     border-width: 1.5px;
+    border-radius: 10px;
   }
 }
 
@@ -986,9 +1015,15 @@ body.results-only-view .table-panel {
   .mark-option-sheet {
     padding: 4px;
     border-radius: 8px;
+    gap: 4px;
+  }
+  .mark-option-title {
+    font-size: 8px;
   }
   .mark-option-row {
-    gap: 4px;
+    gap: 3px;
+    max-height: 78px;
+    padding-right: 2px;
   }
   .mark-option-btn,
   .mark-clear-btn {
@@ -996,5 +1031,6 @@ body.results-only-view .table-panel {
     padding: 2px 1px;
     border-width: 1px;
     font-size: 8px;
+    border-radius: 8px;
   }
 }
