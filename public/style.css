@@ -460,21 +460,23 @@ textarea { resize: vertical; }
     gap: 10px;
   }
   .result-info-row {
-    grid-template-columns: 1fr;
-    gap: 6px;
+    grid-template-columns: minmax(46px, 0.72fr) 1px minmax(112px, 1.4fr) 1px minmax(56px, 0.8fr);
+    gap: 8px;
+    align-items: end;
   }
   .info-col {
     gap: 2px;
   }
   .info-col-label {
-    font-size: 11px;
+    font-size: 10px;
   }
   .info-col-value {
-    white-space: normal;
-    font-size: 12px;
+    white-space: nowrap;
+    font-size: 11px;
   }
   .info-divider {
-    display: none;
+    display: block;
+    height: 34px;
   }
   .fee-box {
     min-height: 96px;
