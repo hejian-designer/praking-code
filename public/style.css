@@ -144,6 +144,49 @@ textarea { resize: vertical; }
   gap: 12px;
   margin-bottom: 14px;
 }
+.panel-grid.panel-grid-idle {
+  gap: 0;
+  margin-bottom: 0;
+}
+.query-panel-card {
+  --panel-pad-x: 16px;
+  --panel-pad-y: 16px;
+  overflow: hidden;
+  padding-left: var(--panel-pad-x);
+  padding-right: var(--panel-pad-x);
+  transform-origin: top center;
+  transition:
+    max-height 420ms cubic-bezier(0.2, 1.02, 0.24, 1.06),
+    opacity 220ms ease,
+    transform 460ms cubic-bezier(0.18, 1.18, 0.28, 1),
+    padding-top 420ms cubic-bezier(0.2, 1.02, 0.24, 1.06),
+    padding-bottom 420ms cubic-bezier(0.2, 1.02, 0.24, 1.06),
+    margin 300ms ease,
+    border-color 220ms ease,
+    box-shadow 300ms ease;
+}
+.query-panel-card.panel-collapsed {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-12px) scale(0.96);
+  padding-top: 0;
+  padding-bottom: 0;
+  margin: 0;
+  border-color: transparent;
+  box-shadow: none;
+  pointer-events: none;
+}
+.query-panel-card.panel-open {
+  max-height: 420px;
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  padding-top: var(--panel-pad-y);
+  padding-bottom: var(--panel-pad-y);
+  pointer-events: auto;
+}
+#batchPanel.query-panel-card.panel-open {
+  max-height: 520px;
+}
 .panel, .table-panel { padding: 16px; }
 .panel h2, .table-panel h2 {
   margin-top: 0;
@@ -660,6 +703,16 @@ body.results-only-view .table-panel {
     padding: 12px 10px;
     border-radius: 14px;
   }
+  .query-panel-card {
+    --panel-pad-x: 12px;
+    --panel-pad-y: 12px;
+  }
+  .query-panel-card.panel-open {
+    max-height: 360px;
+  }
+  #batchPanel.query-panel-card.panel-open {
+    max-height: 430px;
+  }
   .panel h2,
   .table-panel h2 {
     margin-bottom: 8px;
@@ -804,6 +857,16 @@ body.results-only-view .table-panel {
   }
   .table-panel {
     padding: 10px 9px;
+  }
+  .query-panel-card {
+    --panel-pad-x: 10px;
+    --panel-pad-y: 10px;
+  }
+  .query-panel-card.panel-open {
+    max-height: 320px;
+  }
+  #batchPanel.query-panel-card.panel-open {
+    max-height: 390px;
   }
   .tool-switch {
     gap: 8px;

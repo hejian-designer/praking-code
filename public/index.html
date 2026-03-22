@@ -34,8 +34,8 @@
         <button id="batchToolBtn" class="tool-tab">批量查询</button>
       </section>
 
-      <section class="panel-grid">
-        <article id="singlePanel" class="card panel">
+      <section id="panelGrid" class="panel-grid panel-grid-idle">
+        <article id="singlePanel" class="card panel query-panel-card">
           <h2>单车查询</h2>
           <div class="input-row">
             <input id="singlePlateInput" type="text" inputmode="text" placeholder="请输入车牌号，例如：沪GAJ226" maxlength="12" />
@@ -44,7 +44,7 @@
           <p class="hint">会自动转大写，并把新结果插入列表顶部。</p>
         </article>
 
-        <article id="batchPanel" class="card panel">
+        <article id="batchPanel" class="card panel query-panel-card">
           <h2>批量查询</h2>
           <textarea id="batchText" rows="4" placeholder="粘贴任意文本，系统会自动提取车牌号"></textarea>
           <div class="detected-row">

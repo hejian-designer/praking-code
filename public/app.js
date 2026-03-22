@@ -22,6 +22,7 @@ const el = {
   singlePlateInput: document.getElementById('singlePlateInput'),
   singleToolBtn: document.getElementById('singleToolBtn'),
   batchToolBtn: document.getElementById('batchToolBtn'),
+  panelGrid: document.getElementById('panelGrid'),
   singlePanel: document.getElementById('singlePanel'),
   batchPanel: document.getElementById('batchPanel'),
   batchText: document.getElementById('batchText'),
@@ -58,12 +59,19 @@ function updateInstallButton() {
 }
 
 function updateToolPanels() {
+  const hasOpen = state.queryPanelOpen;
   const isSingle = state.queryPanelOpen && state.activeTool === 'single';
   const isBatch = state.queryPanelOpen && state.activeTool === 'batch';
+  el.panelGrid.classList.toggle('panel-grid-idle', !hasOpen);
+  el.panelGrid.classList.toggle('panel-grid-open', hasOpen);
   el.singleToolBtn.classList.toggle('tool-tab-active', isSingle);
   el.batchToolBtn.classList.toggle('tool-tab-active', isBatch);
-  el.singlePanel.hidden = !isSingle;
-  el.batchPanel.hidden = !isBatch;
+  el.singlePanel.classList.toggle('panel-open', isSingle);
+  el.singlePanel.classList.toggle('panel-collapsed', !isSingle);
+  el.batchPanel.classList.toggle('panel-open', isBatch);
+  el.batchPanel.classList.toggle('panel-collapsed', !isBatch);
+  el.singlePanel.setAttribute('aria-hidden', String(!isSingle));
+  el.batchPanel.setAttribute('aria-hidden', String(!isBatch));
 }
 
 function updateResultsView() {
