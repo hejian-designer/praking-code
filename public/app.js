@@ -9,7 +9,8 @@ const state = {
   alignTimer: null,
   refreshTimer: null,
   deferredInstallPrompt: null,
-  activeTool: 'single'
+  activeTool: 'single',
+  expandedMarkIndex: null
 };
 
 const el = {
@@ -141,8 +142,10 @@ function renderCards() {
     const markText = item.isProcessed ? '已处理' : item.marked ? `已标记 ${item.markTime}h` : '标记时间';
     const ownerText = item.owner || '-';
     const entryText = item.entry || '-';
-    const markOptions = isSuccess ? `
-      <div class="mark-option-row">
+    const markExpanded = state.expandedMarkIndex === index;
+    const markOptions = isSuccess && markExpanded ? `
+      <div class="mark-option-sheet">
+        <div class="mark-option-row">
         ${MARK_OPTIONS.map(option => `
           <button
             class="mark-option-btn ${item.markTime === option && item.marked ? 'mark-option-active' : ''}"
@@ -152,6 +155,7 @@ function renderCards() {
           >${option}h</button>
         `).join('')}
         <button class="mark-clear-btn" data-action="clear-mark" data-index="${index}">取消</button>
+      </div>
       </div>
     ` : '';
     return `
@@ -191,7 +195,7 @@ function renderCards() {
           </div>
         </div>
         <div class="actions-row">
-          <button class="small-btn mark-btn" data-action="mark" data-index="${index}">${markText}</button>
+          <button class="small-btn mark-btn ${markExpanded ? 'mark-btn-active' : ''}" data-action="mark" data-index="${index}">${markText}</button>
           <button class="small-btn done-btn" data-action="done" data-index="${index}">${item.isProcessed ? '取消已处理' : '标记已处理'}</button>
           <button class="small-btn danger-btn" data-action="delete" data-index="${index}">删除</button>
         </div>
@@ -336,7 +340,8 @@ function promptMark(index) {
     showToast('仅在场车辆可标记处理时间');
     return;
   }
-  showToast('请选择下方固定处理时间');
+  state.expandedMarkIndex = state.expandedMarkIndex === index ? null : index;
+  render();
 }
 
 function selectMark(index, value) {
@@ -345,6 +350,7 @@ function selectMark(index, value) {
   current.marked = true;
   current.markTime = value;
   state.carList[index] = current;
+  state.expandedMarkIndex = null;
   saveLocalData();
   render();
 }
@@ -355,6 +361,7 @@ function clearMark(index) {
   current.marked = false;
   current.markTime = null;
   state.carList[index] = current;
+  state.expandedMarkIndex = null;
   saveLocalData();
   render();
 }
@@ -364,12 +371,16 @@ function toggleProcessed(index) {
   if (!current) return;
   current.isProcessed = !current.isProcessed;
   state.carList[index] = current;
+  state.expandedMarkIndex = null;
   saveLocalData();
   render();
 }
 
 function deleteItem(index) {
   state.carList.splice(index, 1);
+  if (state.expandedMarkIndex === index) {
+    state.expandedMarkIndex = null;
+  }
   saveLocalData();
   render();
 }
