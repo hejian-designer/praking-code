@@ -139,6 +139,8 @@ function renderCards() {
     const badgeClass = isSuccess ? 'badge-success' : 'badge-muted';
     const badgeText = isSuccess ? '在场' : '未在场';
     const markText = item.isProcessed ? '已处理' : item.marked ? `已标记 ${item.markTime}h` : '标记时间';
+    const ownerText = item.owner || '-';
+    const entryText = item.entry || '-';
     const markOptions = isSuccess ? `
       <div class="mark-option-row">
         ${MARK_OPTIONS.map(option => `
@@ -154,15 +156,35 @@ function renderCards() {
     ` : '';
     return `
       <article class="result-card">
-        <div class="result-top">
-          <div class="plate">${item.plate}</div>
-          <span class="badge ${badgeClass}">${badgeText}</span>
-        </div>
-        <div class="meta-grid">
-          <div class="meta-item"><div class="meta-label">入场时间</div><div class="meta-value">${item.entry || '-'}</div></div>
-          <div class="meta-item"><div class="meta-label">车主</div><div class="meta-value">${item.owner || '-'}</div></div>
-          <div class="meta-item"><div class="meta-label">今日时长</div><div class="meta-value">${item.todayHoursFixed || '0.0'}h</div></div>
-          <div class="meta-item"><div class="meta-label">欠费</div><div class="meta-value">${item.needPay || 0}</div></div>
+        <div class="result-main-row">
+          <div class="result-top">
+            <div class="plate-block">
+              <div class="plate">${item.plate}</div>
+              <div class="plate-subline">
+                <span class="badge ${badgeClass}">${badgeText}</span>
+                ${item.isProcessed ? '<span class="inline-flag inline-flag-success">已处理</span>' : ''}
+                ${item.marked && !item.isProcessed ? `<span class="inline-flag">标记 ${item.markTime}h</span>` : ''}
+              </div>
+            </div>
+          </div>
+          <div class="summary-grid">
+            <div class="summary-item">
+              <div class="summary-label">欠费</div>
+              <div class="summary-value summary-value-strong">${item.needPay || 0}</div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-label">今日</div>
+              <div class="summary-value">${item.todayHoursFixed || '0.0'}h</div>
+            </div>
+            <div class="summary-item summary-item-wide">
+              <div class="summary-label">入场</div>
+              <div class="summary-value">${entryText}</div>
+            </div>
+            <div class="summary-item summary-item-wide">
+              <div class="summary-label">车主</div>
+              <div class="summary-value">${ownerText}</div>
+            </div>
+          </div>
         </div>
         <div class="actions-row">
           <button class="small-btn mark-btn" data-action="mark" data-index="${index}">${markText}</button>
