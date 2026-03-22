@@ -605,8 +605,8 @@ textarea { resize: vertical; }
     padding: 7px 10px;
   }
   .tool-switch {
-    gap: 6px;
-    padding: 6px;
+    gap: 8px;
+    padding: 8px 14px;
   }
   .panel-hidden-mobile {
     display: none;
@@ -772,6 +772,10 @@ textarea { resize: vertical; }
   }
   .table-panel {
     padding: 10px 9px;
+  }
+  .tool-switch {
+    gap: 8px;
+    padding: 8px 12px;
   }
   .result-list {
     gap: 8px;
