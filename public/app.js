@@ -79,6 +79,12 @@ function normalizeNumber(value, fallback = 0) {
   return Number.isFinite(num) ? num : fallback;
 }
 
+function formatEntryDisplay(value = '') {
+  const text = String(value || '').trim();
+  if (!text) return '-';
+  return text.replace(/^(\d{4})-(\d{2})-(\d{2})/, '$1.$2.$3');
+}
+
 function normalizeCar(raw = {}, oldCar = {}) {
   const todayHours = normalizeNumber(raw.today_hours ?? raw.todayHours ?? oldCar.todayHours, 0);
   const totalHours = normalizeNumber(raw.total_hours ?? raw.totalHours ?? oldCar.totalHours, 0);
@@ -137,11 +143,11 @@ function renderCards() {
   el.emptyState.style.display = 'none';
   el.cardList.innerHTML = state.carList.map((item, index) => {
     const isSuccess = item.status === 'success';
-    const badgeClass = isSuccess ? 'badge-success' : 'badge-muted';
     const badgeText = isSuccess ? '在场' : '未在场';
     const markText = item.isProcessed ? '已处理' : item.marked ? `已标记 ${item.markTime}h` : '标记时间';
     const ownerText = item.owner || '-';
-    const entryText = item.entry || '-';
+    const ownerDisplay = ownerText === '-' ? '-' : ownerText.toUpperCase();
+    const entryText = formatEntryDisplay(item.entry);
     const markExpanded = state.expandedMarkIndex === index;
     const markOptions = isSuccess && markExpanded ? `
       <div class="mark-option-sheet">
@@ -160,11 +166,9 @@ function renderCards() {
     ` : '';
     return `
       <article class="result-card ${item.isProcessed ? 'result-card-processed' : ''}">
-        <div class="result-main-row">
-          <div class="status-box ${badgeClass}">
-            <span class="status-box-text">${badgeText}</span>
-          </div>
-          <div class="result-content">
+        <div class="result-layout">
+          <div class="status-pill ${isSuccess ? 'status-pill-success' : 'status-pill-muted'}">${badgeText}</div>
+          <div class="result-info-panel">
             <div class="result-topline">
               <div class="plate">${item.plate}</div>
               ${item.marked && !item.isProcessed ? `<span class="inline-flag">标记 ${item.markTime}h</span>` : ''}
@@ -172,31 +176,29 @@ function renderCards() {
             <div class="result-info-row">
               <div class="info-col">
                 <div class="info-col-label">车主</div>
-                <div class="info-col-value">${ownerText}</div>
+                <div class="info-col-value">${ownerDisplay}</div>
               </div>
-              <div class="info-divider"></div>
-              <div class="info-col">
-                <div class="info-col-label">入场</div>
+              <div class="info-col info-col-entry">
+                <div class="info-col-label">入场时间</div>
                 <div class="info-col-value">${entryText}</div>
               </div>
-              <div class="info-divider"></div>
-              <div class="info-col">
+              <div class="info-col info-col-hours">
                 <div class="info-col-label">今日已停</div>
                 <div class="info-col-value">${item.todayHoursFixed || '0.0'}h</div>
               </div>
             </div>
+            <div class="actions-row">
+              <button class="small-btn mark-btn ${markExpanded ? 'mark-btn-active' : ''}" data-action="mark" data-index="${index}">${markText}</button>
+              <button class="small-btn done-btn" data-action="done" data-index="${index}">${item.isProcessed ? '取消已处理' : '标记已处理'}</button>
+              <button class="small-btn danger-btn" data-action="delete" data-index="${index}">删除</button>
+            </div>
+            ${markOptions}
           </div>
-          <div class="fee-box">
+          <div class="fee-panel ${isSuccess ? 'fee-panel-success' : 'fee-panel-muted'}">
             <div class="fee-label">欠费</div>
             <div class="fee-value">¥${item.needPay || 0}</div>
           </div>
         </div>
-        <div class="actions-row">
-          <button class="small-btn mark-btn ${markExpanded ? 'mark-btn-active' : ''}" data-action="mark" data-index="${index}">${markText}</button>
-          <button class="small-btn done-btn" data-action="done" data-index="${index}">${item.isProcessed ? '取消已处理' : '标记已处理'}</button>
-          <button class="small-btn danger-btn" data-action="delete" data-index="${index}">删除</button>
-        </div>
-        ${markOptions}
       </article>`;
   }).join('');
 }
