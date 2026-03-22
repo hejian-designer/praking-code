@@ -201,6 +201,31 @@ textarea { resize: vertical; }
 .meta-label { color: var(--muted); font-size: 13px; margin-bottom: 4px; }
 .meta-value { font-weight: 600; word-break: break-all; }
 .actions-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.mark-option-row {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+}
+.mark-option-btn,
+.mark-clear-btn {
+  min-height: 42px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  font-size: 14px;
+}
+.mark-option-btn {
+  background: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+  border: 1px solid rgba(37, 99, 235, 0.12);
+}
+.mark-option-active {
+  background: linear-gradient(135deg, #1d4ed8, #0f172a);
+  color: #fff;
+}
+.mark-clear-btn {
+  background: rgba(148, 163, 184, 0.14);
+  color: #475569;
+}
 .primary-btn {
   background: linear-gradient(135deg, var(--primary), var(--primary-hover));
   color: #fff;
@@ -258,6 +283,9 @@ textarea { resize: vertical; }
   }
   .actions-row {
     grid-template-columns: 1fr;
+  }
+  .mark-option-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .meta-grid {
     grid-template-columns: 1fr;

@@ -1,5 +1,6 @@
 const STORAGE_KEY = 'parking_webapp_car_list_v1';
 const PLATE_REGEX = /[京津沪渝冀豫云辽黑湘皖鲁苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼][A-Z][A-Z0-9]{5}/g;
+const MARK_OPTIONS = ['6', '6.5', '7', '7.5'];
 
 const state = {
   carList: [],
@@ -125,6 +126,19 @@ function renderCards() {
     const badgeClass = isSuccess ? 'badge-success' : 'badge-muted';
     const badgeText = isSuccess ? '在场' : '未在场';
     const markText = item.isProcessed ? '已处理' : item.marked ? `已标记 ${item.markTime}h` : '标记时间';
+    const markOptions = isSuccess ? `
+      <div class="mark-option-row">
+        ${MARK_OPTIONS.map(option => `
+          <button
+            class="mark-option-btn ${item.markTime === option && item.marked ? 'mark-option-active' : ''}"
+            data-action="select-mark"
+            data-index="${index}"
+            data-value="${option}"
+          >${option}h</button>
+        `).join('')}
+        <button class="mark-clear-btn" data-action="clear-mark" data-index="${index}">取消</button>
+      </div>
+    ` : '';
     return `
       <article class="result-card">
         <div class="result-top">
@@ -142,6 +156,7 @@ function renderCards() {
           <button class="small-btn done-btn" data-action="done" data-index="${index}">${item.isProcessed ? '取消已处理' : '标记已处理'}</button>
           <button class="small-btn danger-btn" data-action="delete" data-index="${index}">删除</button>
         </div>
+        ${markOptions}
       </article>`;
   }).join('');
 }
@@ -278,16 +293,28 @@ function clearList() {
 function promptMark(index) {
   const current = state.carList[index];
   if (!current) return;
-  const input = window.prompt('请输入处理时间（6 / 6.5 / 7 / 7.5 / 8），留空则取消标记：', current.markTime || '');
-  if (input === null) return;
-  const value = input.trim();
-  if (!value) {
-    current.marked = false;
-    current.markTime = null;
-  } else {
-    current.marked = true;
-    current.markTime = value;
+  if (current.status !== 'success') {
+    showToast('仅在场车辆可标记处理时间');
+    return;
   }
+  showToast('请选择下方固定处理时间');
+}
+
+function selectMark(index, value) {
+  const current = state.carList[index];
+  if (!current) return;
+  current.marked = true;
+  current.markTime = value;
+  state.carList[index] = current;
+  saveLocalData();
+  render();
+}
+
+function clearMark(index) {
+  const current = state.carList[index];
+  if (!current) return;
+  current.marked = false;
+  current.markTime = null;
   state.carList[index] = current;
   saveLocalData();
   render();
@@ -347,6 +374,8 @@ function bindEvents() {
     const index = Number(target.dataset.index);
     if (!Number.isInteger(index)) return;
     if (action === 'mark') promptMark(index);
+    if (action === 'select-mark') selectMark(index, target.dataset.value || '');
+    if (action === 'clear-mark') clearMark(index);
     if (action === 'done') toggleProcessed(index);
     if (action === 'delete') deleteItem(index);
   });
